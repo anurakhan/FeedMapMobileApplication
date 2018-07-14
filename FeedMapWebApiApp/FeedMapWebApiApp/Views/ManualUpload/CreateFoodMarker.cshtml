@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Create Food Marker";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="monospaceFont">Populate Food Marker</h1>
+
+@using (Html.BeginForm("CreateFoodMarker", "ManualUpload", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+    <label for="FoodCategoryId">Food Category Id:</label>
+    @Html.TextBox("FoodCategoryId")<br/>
+
+    <label for="RestaurantId">Restaurant Id:</label>
+    @Html.TextBox("RestaurantId")<br/>
+
+    <label for="Name">Name:</label>
+    @Html.TextBox("Name")<br/>
+
+    <label for="Comment">Comment:</label>
+    @Html.TextArea("Comment")<br/>
+
+    <label for="Rating">Rating:</label>
+    @Html.TextBox("Rating")<br/>
+
+    <label>Photos:</label>
+    <div id="multiple">
+        <input type="file" class="multiple" name="files" multiple />
+    </div>
+
+    <input type="submit" name="submit" value="submit"/>
+}
+

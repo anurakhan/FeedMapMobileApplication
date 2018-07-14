@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Create Restaurant";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="monospaceFont">Populate Restaurant Info</h1>
+
+@using (Html.BeginForm("CreateRestaurant", "ManualUpload", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+    <label for="Name">Name:</label>
+    @Html.TextBox("Name")<br />
+
+    <label for="Position">Position:</label>
+    @Html.TextBox("Position")<br />
+
+    <label for="Address">Address:</label>
+    @Html.TextBox("Address")<br />
+
+    <input type="submit" name="submit" value="Submit" />
+}

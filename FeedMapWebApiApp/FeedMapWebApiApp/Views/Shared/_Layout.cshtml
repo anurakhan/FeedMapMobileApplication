@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <style>
+      .footerLine
+      {
+        height:1px;
+        background:grey;
+      }  
+      .monospaceFont
+      {
+        font-family:monospace;
+      }
+    </style>        
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+    <div class="footerLine">
+    </div>        
+    <p class="monospaceFont">All Rights Reserved</p>    
+</body>
+</html>
