@@ -10,6 +10,6 @@ Xamirin Mobile app --- Web Api --- Database
 
 ![alt text](https://github.com/anurakhan/FeedMapMobileApplication/blob/master/FeedMapScreen1.png)
 
-![alt text](https://github.com/anurakhan/FeedMapMobileApplication/blob/master/AppIcons/FeedMapScreen2.png)
+![alt text](https://github.com/anurakhan/FeedMapMobileApplication/blob/master/FeedMapScreen2.png)
 
 
