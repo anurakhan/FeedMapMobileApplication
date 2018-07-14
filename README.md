@@ -6,4 +6,5 @@ It is a 3 tier application
 
 Xamirin Mobile app --- Web Api --- Database
 
-![alt text](https://github.com/anurakhan/FeedMapMobileApplication/blob/master/AppIcons/FeedMapIcon.png)
+![alt text](https://github.com/anurakhan/FeedMapMobileApplication/blob/master/AppIcons/FeedMapIcon120.png)
+
