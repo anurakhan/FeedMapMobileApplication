@@ -1,10 +1,15 @@
 # FeedMapMobileApplication
 FeedMap is an IOS app that shows to the user highly rated dishes, eg., Ice Cream, Ramen, etc.
+Created using Xamarin.
 
-To Create the mobile app Xamarin was used. 
-It is a 3 tier application 
+This app consists of IOS client application and web api.
 
-Xamirin Mobile app --- Web Api --- Database
+Code refactoring was done, however it still needs more.
+
+Improvments to come:
+Move the manual data write from web api to a seperate client web application. To seperate the concerns in the web service.
+More refcatoring in IOS app.
+Add collection of images to BottomSheetViewContainers.
 
 ![alt text](https://github.com/anurakhan/FeedMapMobileApplication/blob/master/AppIcons/FeedMapIcon120.png)
 
