@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Helper\" />
+    <Folder Include="Repository\" />
+    <Folder Include="Repository\Abstract\" />
+    <Folder Include="Repository\Concrete\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="WindowsAzure.Storage" Version="9.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FeedMapDTO\FeedMapDTO.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Interactors\Abstract\IInteractor.cs" />
+    <Compile Remove="Interactors\Concrete\Interactor.cs" />
+  </ItemGroup>
+</Project>

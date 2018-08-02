@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace FeedMapWebApiApp.Models
+namespace FeedMapBLL.Helpers
 {
     public class ImageFileNameConverter
     {

@@ -7,109 +7,44 @@ using FeedMapWebApiApp.Models;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
+using FeedMapDAL;
+using FeedMapDAL.Repository.Abstract;
+using FeedMapDTO;
+using FeedMapBLL.Domain;
+using AutoMapper;
 
 namespace FeedMapWebApiApp.Controllers
 {
     [Route("api/[controller]")]
     public class FullFoodAndGeoDataController : Controller
     {
-        private DataAccess m_DataAccess;
+        private ICompleteFoodDataRepository _repo;
 
-        public FullFoodAndGeoDataController(IConfiguration configuration)
+        public FullFoodAndGeoDataController(RepositoryPayload repoPayload)
         {
-            m_DataAccess = new DataAccess(configuration);
+            _repo = repoPayload.GetCompleteFoodDataRepository();
         }
 
         // GET: api/FullFoodAndGeoData
         [HttpGet]
-        public JSONRetObj<IEnumerable<FullFoodAndGeoData>> Get()
+        public IEnumerable<FullFoodAndGeoDataClient> Get()
         {
-            JSONRetObj<IEnumerable<FullFoodAndGeoData>> retObj = new JSONRetObj<IEnumerable<FullFoodAndGeoData>>();
+            List<FullFoodAndGeoDataClient> retLst = new List<FullFoodAndGeoDataClient>();
 
-            string sql = " SELECT FM_ID, FM_NAME, REST_NAME, (REST_POSITION.ToString()) AS 'REST_POSITION', ";
-            sql += " REST_ADDRESS, FM_COMMENT, FM_RATING, FC_NAME ";
-            sql += " FROM FoodMarker ";
-            sql += " INNER JOIN Restaurants on FM_REST_ID = REST_ID ";
-            sql += " INNER JOIN FoodCategories on FM_FC_ID = FC_ID ";
-            DataTable retTbl = m_DataAccess.FillTable(sql);
-
-            if (retTbl.Rows.Count == 0) 
+            IEnumerable<CompleteFoodDataDTO> completeFoodDatasDto = _repo.GetCompleteFoodDatas();
+            foreach (CompleteFoodDataDTO completeFoodDataDto in completeFoodDatasDto)
             {
-                retObj.IsSuccess = false;
-                retObj.Message = "Empty Response Obj";
-                retObj.ResponseObj = null;
-
-                return retObj;
+                retLst.Add(Mapper.Map<FullFoodAndGeoDataClient>(completeFoodDataDto));    
             }
-
-            List<FullFoodAndGeoData> retLst = new List<FullFoodAndGeoData>();
-            foreach (DataRow row in retTbl.Rows)
-            {
-                retLst.Add(new FullFoodAndGeoData()
-                {
-                    FoodMarkerId = (int)row["FM_ID"],
-                    FoodName = (string)row["FM_NAME"],
-                    RestaurantName = (string)row["REST_NAME"],
-                    RestaurantPosition = (string)row["REST_POSITION"],
-                    RestaurantAddress = (string)row["REST_ADDRESS"],
-                    Comment = (string)row["FM_COMMENT"],
-                    Rating = (int)row["FM_RATING"],
-                    CategoryName = (string)row["FC_NAME"]
-                });
-            }
-
-            retObj.IsSuccess = true;
-            retObj.Message = "";
-            retObj.ResponseObj = retLst;
-
-            return retObj;
-
+            return retLst;
         }
 
         // GET api/FullFoodAndGeoData/5
         [HttpGet("{id}")]
-        public JSONRetObj<FullFoodAndGeoData> Get(int id)
+        public FullFoodAndGeoDataClient Get(int id)
         {
-            JSONRetObj<FullFoodAndGeoData> retObj = new JSONRetObj<FullFoodAndGeoData>();
-
-            List<SqlParameter> sqlParams = new List<SqlParameter>();
-            sqlParams.Add("@id", SqlDbType.Int, (object)id);
-
-            string sql = " SELECT FM_ID, FM_NAME, REST_NAME, (REST_POSITION.ToString()) AS 'REST_POSITION', ";
-            sql += " REST_ADDRESS, FM_COMMENT, FM_RATING, FC_NAME ";
-            sql += " FROM FoodMarker ";
-            sql += " INNER JOIN Restaurants on FM_REST_ID = REST_ID ";
-            sql += " INNER JOIN FoodCategories on FM_FC_ID = FC_ID ";
-            sql += " WHERE FM_ID = @id ";
-                
-            DataTable retTbl = m_DataAccess.FillTable(sql, sqlParams);
-
-            if (retTbl.Rows.Count == 0)
-            {
-                retObj.IsSuccess = false;
-                retObj.Message = "Empty Response Obj";
-                retObj.ResponseObj = null;
-
-                return retObj;
-            }
-
-            FullFoodAndGeoData ret = new FullFoodAndGeoData()
-            {
-                FoodMarkerId = (int)retTbl.Rows[0]["FM_ID"],
-                FoodName = (string)retTbl.Rows[0]["FM_NAME"],
-                RestaurantName = (string)retTbl.Rows[0]["REST_NAME"],
-                RestaurantPosition = (string)retTbl.Rows[0]["REST_POSITION"],
-                RestaurantAddress = (string)retTbl.Rows[0]["REST_ADDRESS"],
-                Comment = (string)retTbl.Rows[0]["FM_COMMENT"],
-                Rating = (int)retTbl.Rows[0]["FM_RATING"],
-                CategoryName = (string)retTbl.Rows[0]["FC_NAME"]
-            };
-
-            retObj.IsSuccess = true;
-            retObj.Message = "";
-            retObj.ResponseObj = ret;
-
-            return retObj;
+            CompleteFoodDataDTO completeFoodDataDto = _repo.GetCompleteFoodData(id);
+            return Mapper.Map<FullFoodAndGeoDataClient>(completeFoodDataDto);
         }
     }
 }

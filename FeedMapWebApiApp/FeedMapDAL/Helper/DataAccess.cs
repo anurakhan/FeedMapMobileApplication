@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using FeedMapWebApiApp.Models;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 
-namespace FeedMapWebApiApp.Models
+namespace FeedMapDAL.Helper
 {
     public class DataAccess
     {
@@ -16,15 +15,15 @@ namespace FeedMapWebApiApp.Models
         {
             get
             {
-                return m_configuration.GetConnectionString("FeedMapDataBase");
+                return _connectionString;
             }
         }
 
-        IConfiguration m_configuration;
+        string _connectionString;
 
-        public DataAccess(IConfiguration configuration)
+        public DataAccess(string connectionString)
         {
-            m_configuration = configuration;
+            _connectionString = connectionString;
         }
 
         #region execute query provided connection
@@ -165,6 +164,7 @@ namespace FeedMapWebApiApp.Models
         }
         #endregion
     }
+
     public static class SqlHelper
     {
         public static void Add(this List<SqlParameter> sqlCol, string name, SqlDbType dbType, object value)

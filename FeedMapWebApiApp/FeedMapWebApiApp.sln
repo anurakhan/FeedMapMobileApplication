@@ -3,6 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedMapWebApiApp", "FeedMapWebApiApp\FeedMapWebApiApp.csproj", "{FA2EDE05-0995-4D07-A30A-C3FE71BE45BE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedMapBLL", "FeedMapBLL\FeedMapBLL.csproj", "{D6D87605-374C-448A-9E43-A1E01D93F624}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedMapDAL", "FeedMapDAL\FeedMapDAL.csproj", "{30786FD2-A64F-46E6-B1C3-58CED233F652}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedMapDTO", "FeedMapDTO\FeedMapDTO.csproj", "{48E0CC04-AA2F-4811-98C2-9404A415A4BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,5 +19,17 @@ Global
 		{FA2EDE05-0995-4D07-A30A-C3FE71BE45BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA2EDE05-0995-4D07-A30A-C3FE71BE45BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA2EDE05-0995-4D07-A30A-C3FE71BE45BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6D87605-374C-448A-9E43-A1E01D93F624}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6D87605-374C-448A-9E43-A1E01D93F624}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6D87605-374C-448A-9E43-A1E01D93F624}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6D87605-374C-448A-9E43-A1E01D93F624}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30786FD2-A64F-46E6-B1C3-58CED233F652}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30786FD2-A64F-46E6-B1C3-58CED233F652}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30786FD2-A64F-46E6-B1C3-58CED233F652}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30786FD2-A64F-46E6-B1C3-58CED233F652}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48E0CC04-AA2F-4811-98C2-9404A415A4BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48E0CC04-AA2F-4811-98C2-9404A415A4BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48E0CC04-AA2F-4811-98C2-9404A415A4BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48E0CC04-AA2F-4811-98C2-9404A415A4BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

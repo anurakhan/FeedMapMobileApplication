@@ -12,22 +12,33 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Auth;
 using System.IO;
+using FeedMapDAL;
+using FeedMapDAL.Repository.Abstract;
+using FeedMapBLL.Domain;
+using AutoMapper;
+using FeedMapDTO;
+using FeedMapBLL.Helpers;
 
 namespace FeedMapWebApiApp.Controllers
 {
     public class ManualUploadController : Controller
     {
-        private DataAccess m_DataAccess;
         private string key = "FeedMapAccessWebApp1";
-        private string m_StorageConnectionString;
+        private IFoodMarkerImageRepository _repoImageMeta;
+        private IMediaFileRepository _repoImageFile;
+        private IFoodMarkerRepository _repoFoodMarker;
 
-        public ManualUploadController(IConfiguration configuration)
+        private IFoodCategoryRepository _repoFoodCategory;
+        private IRestaurantRepository _repoRestaurant;
+
+        public ManualUploadController(RepositoryPayload repoPayload)
         {
-            m_DataAccess = new DataAccess(configuration);
-            m_StorageConnectionString = configuration["AzureStorageConnectionString:FeedMapStorage"];
+            _repoImageMeta = repoPayload.GetFoodMarkerImageRepository();
+            _repoImageFile = repoPayload.GetFileRepository();
+            _repoFoodMarker = repoPayload.GetFoodMarkerRepository();
+            _repoFoodCategory = repoPayload.GetFoodCategoryRepository();
+            _repoRestaurant = repoPayload.GetRestaurantRepository();
         }
-
-
 
         private bool IsAuth()
         {
@@ -57,66 +68,68 @@ namespace FeedMapWebApiApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateFoodMarker(PostFoodMarker reqObj)
+        public async Task<IActionResult> CreateFoodMarker(FoodMarkerClient reqObj)
         {
             if (reqObj == null)
             {
                 BadRequest();
             }
 
+            JSONRetObj<int?> retObj = new JSONRetObj<int?>();
+            try
+            {
+                retObj.IsSuccess = true;
+                FoodMarker foodMarker = Mapper.Map<FoodMarker>(reqObj);
+                FoodMarkerDTO foodMarkerDto = Mapper.Map<FoodMarkerDTO>(foodMarker);
+                int foodMarkerId = _repoFoodMarker.Post(foodMarkerDto);
+
+                foreach (var file in Request.Form.Files)
+                {
+                    ImageFileNameConverter conv = new ImageFileNameConverter();
+                    string fileName = conv.Convert(file.FileName);
+
+                    FoodMarkerImageDTO postImageMeta = new FoodMarkerImageDTO
+                    {
+                        FoodMarkerId = foodMarkerId,
+                        FileName = fileName
+                    };
+
+                    postImageMeta.Id = _repoImageMeta.Post(postImageMeta);
+
+                    Stream stream = file.OpenReadStream();
+                    await _repoImageFile.PostFile(postImageMeta, file.ContentType, stream);
+                }
+
+                retObj.ResponseObj = foodMarkerId;
+            }
+            catch (Exception ex)
+            {
+                retObj.IsSuccess = false;
+                retObj.Message = ex.Message; 
+            }
+
+            ViewData["RetObj"] = retObj;
+
+            return View("_Success");
+        }
+
+        [HttpPost]
+        public IActionResult CreateCategory(FoodCategoryClient reqObj)
+        {
+            if (reqObj == null)
+            {
+                BadRequest();
+            }
 
             JSONRetObj<int?> retObj = new JSONRetObj<int?>();
             try
             {
                 retObj.IsSuccess = true;
                 retObj.Message = "";
-
-                using (SqlConnection conn = new SqlConnection(m_DataAccess.ConnectionString))
-                {
-                    conn.Open();
-                    using (SqlTransaction tran = conn.BeginTransaction())
-                    {
-                        try
-                        {
-                            using (SqlCommand cmd = m_DataAccess.GetCommand("ADD_FOODMARKER", CommandType.StoredProcedure, conn, tran))
-                            {
-                                cmd.Parameters.Add(m_DataAccess.BuildSqlParam("@fcid", SqlDbType.Int, reqObj.FoodCategoryId));
-                                cmd.Parameters.Add(m_DataAccess.BuildSqlParam("@frid", SqlDbType.Int, reqObj.RestaurantId));
-                                cmd.Parameters.Add(m_DataAccess.BuildSqlParam("@name", SqlDbType.VarChar, reqObj.Name));
-                                cmd.Parameters.Add(m_DataAccess.BuildSqlParam("@comment", SqlDbType.VarChar, reqObj.Comment));
-                                cmd.Parameters.Add(m_DataAccess.BuildSqlParam("@rating", SqlDbType.Int, reqObj.Rating));
-                                cmd.Parameters.Add("@id", SqlDbType.Int).Direction = ParameterDirection.Output;
-
-                                cmd.ExecuteNonQuery();
-                                retObj.ResponseObj = (int)cmd.Parameters["@id"].Value;
-                            }
-                            foreach (var file in Request.Form.Files)
-                            {
-                                int imageId;
-                                ImageFileNameConverter conv = new ImageFileNameConverter();
-                                string fileName = conv.Convert(file.FileName);
-                                using (SqlCommand cmd = m_DataAccess.GetCommand("ADD_IMAGE", CommandType.StoredProcedure, conn, tran))
-                                {
-                                    cmd.Parameters.Add(m_DataAccess.BuildSqlParam("@fmid", SqlDbType.Int, retObj.ResponseObj));
-                                    cmd.Parameters.Add(m_DataAccess.BuildSqlParam("@filename", SqlDbType.VarChar, fileName));
-                                    cmd.Parameters.Add("@id", SqlDbType.Int).Direction = ParameterDirection.Output;
-
-                                    cmd.ExecuteNonQuery();
-                                    imageId = (int)cmd.Parameters["@id"].Value;
-                                }
-                                Stream stream = file.OpenReadStream();
-                                AzureStorageHandler handler = new AzureStorageHandler(m_StorageConnectionString, "feedmapimages");
-                                await handler.UploadFile(imageId.ToString() + "_" + fileName, file.OpenReadStream(), file.ContentType);
-                            }
-                            tran.Commit();
-                        }
-                        catch
-                        {
-                            tran.Rollback();
-                            throw;
-                        }
-                    }
-                }
+                FoodCategory foodCategory = Mapper.Map<FoodCategory>(reqObj);
+                FoodCategoryDTO foodCategoryDto = Mapper.Map<FoodCategoryDTO>(foodCategory);
+                int foodMarkerId = _repoFoodCategory.Post(foodCategoryDto);
+                retObj.ResponseObj = foodMarkerId;
             }
             catch (Exception ex)
             {
@@ -131,7 +144,7 @@ namespace FeedMapWebApiApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateCategory(PostFoodCategories reqObj)
+        public IActionResult CreateRestaurant(RestaurantClient reqObj)
         {
             if (reqObj == null)
             {
@@ -142,57 +155,10 @@ namespace FeedMapWebApiApp.Controllers
             {
                 retObj.IsSuccess = true;
                 retObj.Message = "";
-                using (SqlConnection conn = new SqlConnection(m_DataAccess.ConnectionString))
-                {
-                    conn.Open();
-                    using (SqlCommand cmd = m_DataAccess.GetCommand("ADD_CATEGORY", CommandType.StoredProcedure, conn))
-                    {
-                        cmd.Parameters.Add(m_DataAccess.BuildSqlParam("@name", SqlDbType.VarChar, reqObj.Name));
-                        cmd.Parameters.Add("@id", SqlDbType.Int).Direction = ParameterDirection.Output;
-
-                        cmd.ExecuteNonQuery();
-                        retObj.ResponseObj = (int)cmd.Parameters["@id"].Value;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                retObj.IsSuccess = false;
-                retObj.Message = ex.Message;
-                retObj.ResponseObj = null;
-            }
-
-            ViewData["RetObj"] = retObj;
-
-            return View("_Success");
-        }
-
-        [HttpPost]
-        public IActionResult CreateRestaurant(PostRestaurant reqObj)
-        {
-            if (reqObj == null)
-            {
-                BadRequest();
-            }
-            JSONRetObj<int?> retObj = new JSONRetObj<int?>();
-            try
-            {
-                retObj.IsSuccess = true;
-                retObj.Message = "";
-                using (SqlConnection conn = new SqlConnection(m_DataAccess.ConnectionString))
-                {
-                    conn.Open();
-                    using (SqlCommand cmd = m_DataAccess.GetCommand("ADD_RESTAURANT", CommandType.StoredProcedure, conn))
-                    {
-                        cmd.Parameters.Add(m_DataAccess.BuildSqlParam("@name", SqlDbType.VarChar, reqObj.Name));
-                        cmd.Parameters.Add(m_DataAccess.BuildSqlParam("@position", SqlDbType.VarChar, reqObj.Position));
-                        cmd.Parameters.Add(m_DataAccess.BuildSqlParam("@address", SqlDbType.VarChar, reqObj.Address));
-                        cmd.Parameters.Add("@id", SqlDbType.Int).Direction = ParameterDirection.Output;
-
-                        cmd.ExecuteNonQuery();
-                        retObj.ResponseObj = (int)cmd.Parameters["@id"].Value;
-                    }
-                }
+                Restaurant restaurant = Mapper.Map<Restaurant>(reqObj);
+                RestaurantDTO restaurantDto = Mapper.Map<RestaurantDTO>(restaurant);
+                int foodMarkerId = _repoRestaurant.Post(restaurantDto);
+                retObj.ResponseObj = foodMarkerId;
             }
             catch (Exception ex)
             {

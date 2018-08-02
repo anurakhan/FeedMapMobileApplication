@@ -11,41 +11,51 @@ using System.Data;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using FeedMapDAL;
+using FeedMapDAL.Repository.Abstract;
+using FeedMapDTO;
 
 namespace FeedMapWebApiApp.Controllers
 {
     [Route("api/[controller]")]
     public class PhotosController : Controller
     {
-        private DataAccess m_DataAccess;
-        private string m_StorageConnectionString;
+        private IFoodMarkerImageRepository _repoImageMeta;
+        private IMediaFileRepository _repoImageFile;
 
-        public PhotosController(IConfiguration configuration)
+        public PhotosController(RepositoryPayload repoPayload)
         {
-            m_DataAccess = new DataAccess(configuration);
-            m_StorageConnectionString = configuration["AzureStorageConnectionString:FeedMapStorage"];
+            _repoImageMeta = repoPayload.GetFoodMarkerImageRepository();
+            _repoImageFile = repoPayload.GetFileRepository();
         }
 
         [HttpGet("{id}")]
-        public async Task<FileContentResult> Get(int id)
+        public async Task<ActionResult> Get(int id)
         {
-            List<SqlParameter> sqlParams = new List<SqlParameter>();
-            sqlParams.Add("@id", SqlDbType.Int, (object)id);
+            FoodMarkerImageDTO imageMeta = _repoImageMeta.GetFoodMarkerImage(id);
 
-            string sql = " SELECT TOP(1) CONCAT(CONVERT(varchar(12),FMP_ID),'_',FMP_FILE_NAME) ";
-            sql += " FROM FoodMarkerPhotos ";
-            sql += " WHERE FMP_FM_ID = @id ";
-            sql += " ORDER BY FMP_ID ";
-
-            string fileName = m_DataAccess.ExecuteScalar<string>(sql, sqlParams);
-
-            AzureStorageHandler handler = new AzureStorageHandler(m_StorageConnectionString, "feedmapimages");
+            if (imageMeta == null) return NotFound();
 
             using (Stream stream = new MemoryStream())
             {
-                string contentType = await handler.GetFile(fileName, stream);
+                string contentType = await _repoImageFile.GetFile(imageMeta, stream);
                 byte[] buffer = ((MemoryStream)stream).ToArray();
-                return File(buffer, contentType, fileName);
+                return File(buffer, contentType, imageMeta.FileName);
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetByFoodMarkerId([FromQuery(Name = "foodMarkerId")] int foodMarkerId)
+        {
+            FoodMarkerImageDTO topImageMeta = _repoImageMeta.GetTopFoodMarkerImageByFoodMarkerId(foodMarkerId);
+
+            if (topImageMeta == null) return NotFound();
+
+            using (Stream stream = new MemoryStream())
+            {
+                string contentType = await _repoImageFile.GetFile(topImageMeta, stream);
+                byte[] buffer = ((MemoryStream)stream).ToArray();
+                return File(buffer, contentType, topImageMeta.FileName);
             }
         }
     }

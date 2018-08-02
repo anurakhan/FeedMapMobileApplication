@@ -1,7 +1,7 @@
 ﻿using System;
 namespace FeedMapWebApiApp.Models
 {
-    public class FullFoodAndGeoData
+    public class FullFoodAndGeoDataClient
     {
         public int FoodMarkerId { get; set; }
         public string FoodName { get; set; }

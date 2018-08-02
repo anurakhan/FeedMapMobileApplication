@@ -133,19 +133,21 @@
     <ImageAsset Include="Assets.xcassets\HomeButton.imageset\FeedMapIcon120.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
     <Folder Include="Assets.xcassets\AppLogo.imageset\" />
     <Folder Include="Assets.xcassets\AppLogoBackground.imageset\" />
     <Folder Include="Assets.xcassets\HomeButton.imageset\" />
     <Folder Include="Storyboards\" />
-    <Folder Include="Controllers\" />
+    <Folder Include="ViewControllers\" />
     <Folder Include="Views\" />
     <Folder Include="Models\" />
+    <Folder Include="Services\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Views\BottomSheetViews\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Storyboards\Main.storyboard" />
     <InterfaceDefinition Include="Storyboards\LaunchScreen.storyboard" />
-    <InterfaceDefinition Include="Views\BottomSheetViewController.xib" />
+    <InterfaceDefinition Include="Views\BottomSheetViews\BottomSheetViewController.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -155,26 +157,35 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="Controllers\HomeButtonController.cs" />
-    <Compile Include="Controllers\HomeButtonController.designer.cs">
+    <Compile Include="ViewControllers\HomeButtonController.cs" />
+    <Compile Include="ViewControllers\HomeButtonController.designer.cs">
       <DependentUpon>HomeButtonController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\MapHomePageController.cs" />
-    <Compile Include="Controllers\MapHomePageController.designer.cs">
+    <Compile Include="ViewControllers\MapHomePageController.cs" />
+    <Compile Include="ViewControllers\MapHomePageController.designer.cs">
       <DependentUpon>MapHomePageController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\SplashScreenController.cs" />
-    <Compile Include="Controllers\SplashScreenController.designer.cs">
+    <Compile Include="ViewControllers\SplashScreenController.cs" />
+    <Compile Include="ViewControllers\SplashScreenController.designer.cs">
       <DependentUpon>SplashScreenController.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\FoodMarkerAnnotation.cs" />
-    <Compile Include="Models\RestService.cs" />
     <Compile Include="Models\FoodMarker.cs" />
-    <Compile Include="Models\DirectoryAccess.cs" />
-    <Compile Include="Controllers\BottomSheetViewController.cs" />
-    <Compile Include="Controllers\BottomSheetViewController.designer.cs">
+    <Compile Include="ViewControllers\BottomSheetViewController.cs" />
+    <Compile Include="ViewControllers\BottomSheetViewController.designer.cs">
       <DependentUpon>BottomSheetViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\GeoConverter.cs" />
+    <Compile Include="MapSettings.cs" />
+    <Compile Include="Services\RestService.cs" />
+    <Compile Include="Services\AnnotationService.cs" />
+    <Compile Include="Helpers\ImageStoreNameConverter.cs" />
+    <Compile Include="Helpers\DirectoryAccess.cs" />
+    <Compile Include="Views\BottomSheetViews\BottomSheetBackgroundView.cs" />
+    <Compile Include="Views\BottomSheetViews\BottomSheetScrollViewBuilder.cs" />
+    <Compile Include="Views\BottomSheetViews\BottomSheetContainerViews.cs" />
+    <Compile Include="Views\BottomSheetViews\BottomSheetControlHelpers.cs" />
+    <Compile Include="Views\BottomSheetViews\BottomSheetContentViewBuilder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
