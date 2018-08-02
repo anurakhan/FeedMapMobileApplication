@@ -7,7 +7,7 @@ This app consists of IOS client application and web api.
 Code refactoring was done, however it still needs more.
 
 Improvments to come:
-Move the manual data write from web api to a seperate client web application. To seperate the concerns in the web service.
+Move the manual data write from web api to a seperate client web application to seperate the concerns in the web service.
 More refcatoring in IOS app.
 Add collection of images to BottomSheetViewContainers.
 
