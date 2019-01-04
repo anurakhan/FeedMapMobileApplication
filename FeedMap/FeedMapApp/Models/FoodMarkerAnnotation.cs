@@ -5,7 +5,7 @@ using MapKit;
 using CoreGraphics;
 using CoreLocation;
 using System.Text.RegularExpressions;
-
+using System.Collections.Generic;
 
 namespace FeedMapApp.Models
 {

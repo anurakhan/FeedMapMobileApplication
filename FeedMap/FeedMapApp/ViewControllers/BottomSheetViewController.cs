@@ -8,6 +8,7 @@ using FeedMapApp.Models;
 using Syncfusion.SfRating.iOS;
 using FeedMapApp.Views.BottomSheetViews;
 using System.Collections.Generic;
+using FeedMapApp.Services;
 
 namespace FeedMapApp
 {
@@ -33,7 +34,7 @@ namespace FeedMapApp
 
         public BottomSheetViewController() : base("BottomSheetViewController", null)
         {
-            
+
         }
 
         public override void DidReceiveMemoryWarning()
@@ -100,6 +101,10 @@ namespace FeedMapApp
             _containerList.Add(containerView);
 
             containerView = new BottomSheetCommentContainerView(containerView);
+            containerView.Init();
+            _containerList.Add(containerView);
+
+            containerView = new BottomSheetPhotoContainerView(containerView, ParentViewController);
             containerView.Init();
             _containerList.Add(containerView);
 
@@ -184,6 +189,9 @@ namespace FeedMapApp
 
         private void SetUI()
         {
+            var photosFileSystemService = new FoodMarkerPhotosFileSystemService(_foodMarker);
+            photosFileSystemService.UploadFoodMarkerPhotosToDir();
+
             _scrollViewBuilder.Width = View.Frame.Width;
             _scrollViewBuilder.Height = View.Frame.Height;
             _scrollViewBuilder.Load(_foodMarker.FoodName);

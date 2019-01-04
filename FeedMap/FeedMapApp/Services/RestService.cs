@@ -9,6 +9,8 @@ using System.Net.Http;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using System.Net;
+using System.Linq;
 
 namespace FeedMapApp.Models
 {
@@ -33,10 +35,14 @@ namespace FeedMapApp.Models
             return ret;
         }
 
-        public async Task<Stream> GetFoodMarkerPhotos(int id)
+        public async Task<IEnumerable<FoodMarkerImageMeta>> GetFoodMarkerPhotos(int id)
         {
             HttpResponseMessage response = await m_Client.GetAsync(m_Uri + @"/Photos?foodMarkerId=" + id.ToString());
-            return await response.Content.ReadAsStreamAsync();
+            var content = response.Content;
+            var str = await content.ReadAsStringAsync();
+            var ret = JsonConvert.DeserializeObject<IEnumerable<FoodMarkerImageMeta>>(str);
+            foreach (var meta in ret) meta.ImageUrl = WebUtility.UrlDecode(meta.ImageUrl);
+            return ret;
         }
     }
 

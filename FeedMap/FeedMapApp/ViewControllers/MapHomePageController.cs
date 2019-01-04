@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FeedMapApp.Helpers;
 using FeedMapApp.Services;
+using Chafu;
 
 namespace FeedMapApp
 {
@@ -18,7 +19,6 @@ namespace FeedMapApp
         MKMapView MapView;
         private BottomSheetViewController BottomSheetVC { get; set; }
         CLLocationManager LocationManager;
-
         public MapHomePageController(IntPtr handle) : base(handle)
         {
             LocationManager = new CLLocationManager();
@@ -34,8 +34,7 @@ namespace FeedMapApp
             InitMap();
 
             await AppendToFoodMarkerAnnotations();
-		}
-
+        }
 
         private void InitMap()
         {
@@ -59,12 +58,15 @@ namespace FeedMapApp
 
             foreach (FoodMarker marker in foodMarkers)
             {
-                FoodMarkerAnnotation annotation = await annotationService.LoadAnnotations(marker);
+                var imageMetas = await service.GetFoodMarkerPhotos(marker.FoodMarkerId);
+                marker.FoodMarkerPhotos = imageMetas;
+                FoodMarkerAnnotation annotation = annotationService.LoadAnnotations(marker);
                 MapView.AddAnnotation(annotation);
             }
         }
 
-		private void AddBottomSheetView() {
+        private void AddBottomSheetView()
+        {
             var bottomSheetVC = new BottomSheetViewController();
 
             this.AddChildViewController(bottomSheetVC);
@@ -86,8 +88,9 @@ namespace FeedMapApp
 
         public void TapHomeButton(UITapGestureRecognizer tapGesture)
         {
-            BottomSheetVC.MoveSheetToBound(1); 
+            BottomSheetVC.MoveSheetToBound(1);
         }
+
 
         class MapDelegate : MKMapViewDelegate
         {
@@ -128,14 +131,14 @@ namespace FeedMapApp
                 }
             }
 
-			public override void DidSelectAnnotationView(MKMapView mapView, MKAnnotationView view)
-			{
+            public override void DidSelectAnnotationView(MKMapView mapView, MKAnnotationView view)
+            {
                 if (view.Annotation is FoodMarkerAnnotation)
                 {
                     var annotation = (FoodMarkerAnnotation)view.Annotation;
                     m_BottomSheet.PopulateBottomSheetWithFoodMarkerData(annotation.MarkerInfo);
                 }
-			}
-		}
-	}
+            }
+        }
+    }
 }

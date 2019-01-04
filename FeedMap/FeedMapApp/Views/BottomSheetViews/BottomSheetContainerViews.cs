@@ -5,6 +5,10 @@ using CoreImage;
 using FeedMapApp.Models;
 using Syncfusion.SfRating.iOS;
 using UIKit;
+using System.Linq;
+using Foundation;
+using Chafu;
+using System.IO;
 
 namespace FeedMapApp.Views.BottomSheetViews
 {
@@ -28,7 +32,7 @@ namespace FeedMapApp.Views.BottomSheetViews
 
         public void Init()
         {
-            View = new UIView();   
+            View = new UIView();
         }
 
         public void Load(FoodMarker marker)
@@ -269,6 +273,86 @@ namespace FeedMapApp.Views.BottomSheetViews
                 _parentContainer.View.Frame.GetMaxY(),
                 ContainingView.Frame.Width,
                 _comment.Frame.Height + 10f
+            );
+        }
+    }
+
+    public class BottomSheetPhotoContainerView : IBottomSheetContainerView
+    {
+        private IBottomSheetContainerView _parentContainer;
+        private UIImageView _image;
+        private UIViewController _controller;
+
+        public UIView ContainingView { get; set; }
+        public UIView View { get; set; }
+
+        public BottomSheetPhotoContainerView(IBottomSheetContainerView parentContainter, UIViewController controller)
+        {
+            _parentContainer = parentContainter;
+            ContainingView = _parentContainer.ContainingView;
+            _controller = controller;
+        }
+
+        public void Init()
+        {
+            View = new UIView();
+            _image = new UIImageView();
+            View.AddSubview(_image);
+            ContainingView.AddSubview(View);
+        }
+
+        public void Load(FoodMarker marker)
+        {
+            var imageMeta = marker.FoodMarkerPhotos.Where(p => p.ImageRank == 2).First();
+            nfloat imageHeight = 130;
+
+            UIImage uiImage;
+            using (var url = new NSUrl(imageMeta.ImageUrl))
+            {
+                using (var data = NSData.FromUrl(url))
+                {
+                    uiImage = UIImage.LoadFromData(data);
+                }
+
+            }
+            _image.Frame = new CGRect(
+                0,
+                5f,
+                ControlProps.Width,
+                imageHeight
+            );
+            _image.ContentMode = UIViewContentMode.ScaleAspectFill;
+            _image.Image = uiImage;
+            _image.Center = new CGPoint(ContainingView.Center.X, _image.Center.Y);
+            _image.ClipsToBounds = true;
+            _image.Layer.CornerRadius = 15f;
+
+
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            path = Path.Combine(path, "..", "tmp");
+            path = Path.Combine(path, "feedmapphotos");
+
+            Configuration.TintColor = UIColor.Yellow;
+            var gallery = new AlbumViewController()
+            {
+                LazyDataSource = (view, size, mediaTypes) =>
+                    new LocalFilesDataSource(view, size, mediaTypes) { ImagesPath = path },
+                LazyDelegate = (view, source) => new LocalFilesDelegate(view, (LocalFilesDataSource)source)
+            };
+
+            var gestureRec = new UITapGestureRecognizer(() =>
+            {
+                _controller.PresentViewController(gallery, true, null);
+            });
+            gestureRec.CancelsTouchesInView = false;
+            _image.AddGestureRecognizer(gestureRec);
+            _image.UserInteractionEnabled = true;
+
+            View.Frame = new CGRect(
+                0,
+                _parentContainer.View.Frame.GetMaxY(),
+                ContainingView.Frame.Width,
+                imageHeight + 10f
             );
         }
     }

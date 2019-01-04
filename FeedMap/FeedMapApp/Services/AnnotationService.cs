@@ -7,6 +7,7 @@ using FeedMapApp.Models;
 using Foundation;
 using MapKit;
 using UIKit;
+using System.Linq;
 
 namespace FeedMapApp.Services
 {
@@ -14,7 +15,7 @@ namespace FeedMapApp.Services
     {
         private string _annotationId = "FoodMarkerAnnotation";
 
-        public async Task<FoodMarkerAnnotation> LoadAnnotations(FoodMarker marker)
+        public FoodMarkerAnnotation LoadAnnotations(FoodMarker marker)
         {
             RestService service = new RestService();
 
@@ -23,14 +24,19 @@ namespace FeedMapApp.Services
             annotation.imgFileName = marker.FoodMarkerId.ToString();
 
             UIImage uiImage;
-            using (Stream stream = await service.GetFoodMarkerPhotos(marker.FoodMarkerId))
+
+            var iconImage = marker.FoodMarkerPhotos.Where(p => p.ImageRank == 1).First();
+
+            using (var url = new NSUrl(iconImage.ImageUrl))
             {
-                using (var nsData = NSData.FromStream(stream))
+                using (var data = NSData.FromUrl(url))
                 {
-                    uiImage = UIImage.LoadFromData(nsData);
+                    uiImage = UIImage.LoadFromData(data);
                 }
+
             }
-            uiImage = uiImage.Scale(new CGSize(MapSettings.AnnotationSize.Width, 
+
+            uiImage = uiImage.Scale(new CGSize(MapSettings.AnnotationSize.Width,
                                                MapSettings.AnnotationSize.Height));
 
             DirectoryAccess dirAccessHelper = new DirectoryAccess(temp: true);

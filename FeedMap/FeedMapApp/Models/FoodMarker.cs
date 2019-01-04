@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace FeedMapApp.Models
 {
     public class FoodMarker
@@ -11,5 +13,6 @@ namespace FeedMapApp.Models
         public string Comment { get; set; }
         public int Rating { get; set; }
         public string CategoryName { get; set; }
+        public IEnumerable<FoodMarkerImageMeta> FoodMarkerPhotos { get; set; }
     }
 }

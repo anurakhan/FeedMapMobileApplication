@@ -186,6 +186,14 @@
     <Compile Include="Views\BottomSheetViews\BottomSheetContainerViews.cs" />
     <Compile Include="Views\BottomSheetViews\BottomSheetControlHelpers.cs" />
     <Compile Include="Views\BottomSheetViews\BottomSheetContentViewBuilder.cs" />
+    <Compile Include="Models\FoodMarkerImageMeta.cs" />
+    <Compile Include="Services\FoodMarkerPhotosFileSystemService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\PhotoIosLib\PhotoIosLib.csproj">
+      <Project>{16271987-F48B-479B-A168-9BD337F2792D}</Project>
+      <Name>PhotoIosLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

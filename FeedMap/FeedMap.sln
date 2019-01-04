@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedMapApp", "FeedMapApp\FeedMapApp.csproj", "{5E8BC2DF-DBA9-4341-AE70-603BC63A2721}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoIosLib", "..\PhotoIosLib\PhotoIosLib.csproj", "{16271987-F48B-479B-A168-9BD337F2792D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|iPhoneSimulator = Debug|iPhoneSimulator
@@ -19,5 +21,13 @@ Global
 		{5E8BC2DF-DBA9-4341-AE70-603BC63A2721}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 		{5E8BC2DF-DBA9-4341-AE70-603BC63A2721}.Debug|iPhone.ActiveCfg = Debug|iPhone
 		{5E8BC2DF-DBA9-4341-AE70-603BC63A2721}.Debug|iPhone.Build.0 = Debug|iPhone
+		{16271987-F48B-479B-A168-9BD337F2792D}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{16271987-F48B-479B-A168-9BD337F2792D}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{16271987-F48B-479B-A168-9BD337F2792D}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{16271987-F48B-479B-A168-9BD337F2792D}.Release|iPhone.Build.0 = Release|Any CPU
+		{16271987-F48B-479B-A168-9BD337F2792D}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{16271987-F48B-479B-A168-9BD337F2792D}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{16271987-F48B-479B-A168-9BD337F2792D}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{16271987-F48B-479B-A168-9BD337F2792D}.Debug|iPhone.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal
