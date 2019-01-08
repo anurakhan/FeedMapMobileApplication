@@ -17,7 +17,6 @@ using FeedMapDAL.Repository.Abstract;
 using FeedMapBLL.Domain;
 using AutoMapper;
 using FeedMapDTO;
-using FeedMapBLL.Helpers;
 
 namespace FeedMapWebApiApp.Controllers
 {
@@ -85,19 +84,14 @@ namespace FeedMapWebApiApp.Controllers
 
                 foreach (var file in Request.Form.Files)
                 {
-                    ImageFileNameConverter conv = new ImageFileNameConverter();
-                    string fileName = conv.Convert(file.FileName);
+                    FoodMarkerImage postImageMeta = new FoodMarkerImage(foodMarkerId, file.FileName);
 
-                    FoodMarkerImageDTO postImageMeta = new FoodMarkerImageDTO
-                    {
-                        FoodMarkerId = foodMarkerId,
-                        FileName = fileName
-                    };
+                    var postImageMetaDto = Mapper.Map<FoodMarkerImageDTO>(postImageMeta);
 
-                    postImageMeta.Id = _repoImageMeta.Post(postImageMeta);
+                    postImageMeta.Id = postImageMetaDto.Id = _repoImageMeta.Post(postImageMetaDto);
 
                     Stream stream = file.OpenReadStream();
-                    await _repoImageFile.PostFile(postImageMeta, file.ContentType, stream);
+                    await _repoImageFile.PostFile(postImageMetaDto, file.ContentType, stream);
                 }
 
                 retObj.ResponseObj = foodMarkerId;
@@ -105,7 +99,7 @@ namespace FeedMapWebApiApp.Controllers
             catch (Exception ex)
             {
                 retObj.IsSuccess = false;
-                retObj.Message = ex.Message; 
+                retObj.Message = ex.Message;
             }
 
             ViewData["RetObj"] = retObj;

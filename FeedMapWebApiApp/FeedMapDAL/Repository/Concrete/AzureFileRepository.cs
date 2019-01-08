@@ -28,10 +28,16 @@ namespace FeedMapDAL.Repository.Concrete
             return contentType;
         }
 
+        public string GetFileUrl(FoodMarkerImageDTO foodMarkerImageDto)
+        {
+            string storageFileName = foodMarkerImageDto.Id.ToString() + "_" + foodMarkerImageDto.FileName;
+            return _azureStorageHandler.GetFileUrl(storageFileName);
+        }
+
         public async Task PostFile(FoodMarkerImageDTO foodMarkerImageDto, string contentType, Stream stream)
         {
-            
-            await _azureStorageHandler.UploadFile(foodMarkerImageDto.Id.ToString() 
+
+            await _azureStorageHandler.UploadFile(foodMarkerImageDto.Id.ToString()
                                                   + "_" + foodMarkerImageDto.FileName,
                                                   stream, contentType);
         }

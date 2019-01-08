@@ -10,13 +10,22 @@ namespace FeedMapBLL.Helpers
         {
         }
 
-        public string Convert(string fileName, string id = "") 
+        private string AttachTimeStamp(string s)
+        {
+            return s + "_" + DateTime.UtcNow.ToString("yyyy_MM_dd");
+        }
+
+        public string ClientFileNameConvert(string fileName, string id = "")
         {
             string fileNameNoExt = Path.GetFileNameWithoutExtension(fileName);
             fileNameNoExt = fileNameNoExt.Replace(" ", "_");
-            if (!String.IsNullOrWhiteSpace(id)) fileNameNoExt = id + "_" + fileNameNoExt;
-            fileNameNoExt += "_" + DateTime.UtcNow.ToString("yyyy_MM_dd");
             return fileNameNoExt + Path.GetExtension(fileName);
         }
+
+        public string FileNameGenerate()
+        {
+            return Guid.NewGuid().ToString();
+        }
+
     }
 }

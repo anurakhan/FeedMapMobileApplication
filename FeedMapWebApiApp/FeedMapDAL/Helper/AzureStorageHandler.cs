@@ -18,7 +18,7 @@ namespace FeedMapDAL.Helper
         string m_ContainerRef;
         string m_ConnectionString;
 
-        public string ContainerRef 
+        public string ContainerRef
         {
             get
             {
@@ -26,9 +26,9 @@ namespace FeedMapDAL.Helper
             }
         }
 
-        public string AzureStorageConnectionString 
+        public string AzureStorageConnectionString
         {
-            get 
+            get
             {
                 return m_ConnectionString;
             }
@@ -57,7 +57,14 @@ namespace FeedMapDAL.Helper
             return blockBlob.Properties.ContentType;
         }
 
-        private CloudBlobContainer GetAzureContainer() 
+        public string GetFileUrl(string fileName)
+        {
+            var container = GetAzureContainer();
+            var blockBlob = container.GetBlobReference(fileName);
+            return blockBlob.Uri.AbsoluteUri;
+        }
+
+        private CloudBlobContainer GetAzureContainer()
         {
             var account = CloudStorageAccount.Parse(AzureStorageConnectionString);
             var client = account.CreateCloudBlobClient();

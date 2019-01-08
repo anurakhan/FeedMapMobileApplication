@@ -6,10 +6,14 @@ This app consists of IOS client application and web api.
 
 Code refactoring was done, however it still needs more.
 
-Improvments to come:
+Improvments to Come:
 Move the manual data write from web api to a seperate client web application to seperate the concerns in the web service.
-More refcatoring in IOS app.
-Add collection of images to BottomSheetViewContainers.
+More refactoring in iOS app and web api app.
+Server side implementation of user login and registration.
+
+Recently Added Features:
+Added client side UI for registering and loging in users.
+Redesigned the system for the users to be able to view media content associated with food markers.
 
 ![alt text](https://github.com/anurakhan/FeedMapMobileApplication/blob/master/AppIcons/FeedMapIcon120.png)
 
@@ -17,4 +21,6 @@ Add collection of images to BottomSheetViewContainers.
 
 ![alt text](https://github.com/anurakhan/FeedMapMobileApplication/blob/master/FeedMapScreen2.png)
 
+![alt text](https://github.com/anurakhan/FeedMapMobileApplication/blob/master/FeedMapScreen3.png)
 
+![alt text](https://github.com/anurakhan/FeedMapMobileApplication/blob/master/FeedMapScreen4.png)

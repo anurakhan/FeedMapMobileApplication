@@ -16,6 +16,34 @@ namespace FeedMapApp
             set;
         }
 
+        public UIStoryboard MainStoryboard
+        {
+            get { return UIStoryboard.FromName("Main", NSBundle.MainBundle); }
+        }
+
+        public void SetRootViewController(UIViewController rootViewController, bool animate)
+        {
+            if (animate)
+            {
+                var transitionType = UIViewAnimationOptions.TransitionCrossDissolve;
+
+                Window.RootViewController = rootViewController;
+                UIView.Transition(Window, 0.5, transitionType,
+                                  () => Window.RootViewController = rootViewController,
+                                  null);
+            }
+            else
+            {
+                Window.RootViewController = rootViewController;
+            }
+        }
+
+
+        public UIViewController GetViewController(UIStoryboard storyboard, string viewControllerName)
+        {
+            return storyboard.InstantiateViewController(viewControllerName);
+        }
+
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
             // Override point for customization after application launch.

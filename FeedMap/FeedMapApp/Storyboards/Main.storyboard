@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -16,7 +19,7 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="1669">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="AppLogoBackground" translatesAutoresizingMaskIntoConstraints="NO" id="1670">
@@ -24,7 +27,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppLogo" translatesAutoresizingMaskIntoConstraints="NO" id="1671">
-                                <rect key="frame" x="16" y="177.5" width="381" height="381"/>
+                                <rect key="frame" x="12" y="158.5" width="350" height="350"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="1671" secondAttribute="height" multiplier="1:1" id="1672"/>
                                 </constraints>
@@ -37,9 +40,7 @@
                             <constraint firstItem="1671" firstAttribute="centerY" secondItem="1669" secondAttribute="centerY" id="1675"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <segue destination="1683" kind="presentation" identifier="SplashScreenToHomeSegue" id="1753"/>
-                    </connections>
+                    <connections/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -48,20 +49,27 @@
         <!--Map Home Page Controller-->
         <scene sceneID="1682">
             <objects>
-                <viewController id="1683" customClass="MapHomePageController" sceneMemberID="viewController">
+                <viewController id="1683" customClass="MapHomePageController" sceneMemberID="viewController" storyboardIdentifier="MapHomePageController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1680"/>
                         <viewControllerLayoutGuide type="bottom" id="1681"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="1684">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HomeButton" translatesAutoresizingMaskIntoConstraints="NO" id="1966" customClass="HomeButtonController">
-                                <rect key="frame" x="187" y="35" width="40" height="40"/>
+                                <rect key="frame" x="167.5" y="35" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="1983"/>
                                     <constraint firstAttribute="width" constant="40" id="1984"/>
+                                </constraints>
+                            </imageView>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="11666" translatesAutoresizingMaskIntoConstraints="NO" image="SideBarButton" customClass="SideBarButtonController">
+                                <rect key="frame" x="16" y="38" width="25" height="30"/>
+                                <constraints>
+                                    <constraint id="12891" firstItem="11666" firstAttribute="height" constant="30"/>
+                                    <constraint id="12892" firstItem="11666" firstAttribute="width" constant="25"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -69,22 +77,227 @@
                         <constraints>
                             <constraint firstItem="1966" firstAttribute="centerX" secondItem="1684" secondAttribute="centerX" id="1985"/>
                             <constraint firstItem="1966" firstAttribute="top" secondItem="1684" secondAttribute="top" constant="35" id="3658"/>
+                            <constraint id="12889" firstItem="11666" firstAttribute="leading" secondItem="1684" secondAttribute="leadingMargin"/>
+                            <constraint id="12890" firstItem="11666" firstAttribute="top" secondItem="1680" secondAttribute="bottom" constant="18"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="HomeButton" destination="1966" id="name-outlet-1966"/>
+                        <outlet property="SideBarButton" destination="11666" id="name-outlet-11666"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1685" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="589" y="3"/>
         </scene>
+        <scene sceneID="3893">
+            <objects>
+                <viewController id="3894" sceneMemberID="viewController" customClass="LoginViewController" storyboardIdentifier="LoginViewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3891"/>
+                        <viewControllerLayoutGuide type="bottom" id="3892"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3895">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppLogoBackground" translatesAutoresizingMaskIntoConstraints="NO" id="4356">
+                                <rect key="frame" x="-203" y="-4" width="820" height="820"/>
+                                <constraints>
+                                    <constraint id="6432" firstAttribute="width" constant="820"/>
+                                    <constraint id="6433" firstAttribute="height" constant="820"/>
+                                </constraints>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="4644" translatesAutoresizingMaskIntoConstraints="NO" image="DataBoxAlt" alpha="0.9" userInteractionEnabled="NO">
+                                <rect key="frame" x="20" y="32" width="333" height="301"/>
+                                <constraints>
+                                    <constraint id="14451" firstAttribute="width" secondItem="4644" secondAttribute="height" multiplier="52:47"/>
+                                </constraints>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="4706" translatesAutoresizingMaskIntoConstraints="NO" placeholder="User Name">
+                                <rect key="frame" x="77" y="148.5" width="218" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" spellCheckingType="no" textContentType="username"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="4717" translatesAutoresizingMaskIntoConstraints="NO" placeholder="Password">
+                                <rect key="frame" x="77" y="193.5" width="218" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" spellCheckingType="no" textContentType="password" secureTextEntry="YES"/>
+                            </textField>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="4730" translatesAutoresizingMaskIntoConstraints="NO" image="LogInButton">
+                                <rect key="frame" x="77" y="233.5" width="218" height="26.5"/>
+                                <constraints>
+                                    <constraint id="14487" firstAttribute="width" secondItem="4730" secondAttribute="height" multiplier="83:10"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4979" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="156" y="283" width="61" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="Sign Up"/>
+                                <connections>
+                                    <segue id="5605" destination="4126" kind="presentation" modalTransitionStyle="crossDissolve"/>
+                                </connections>
+                                <constraints>
+                                    <constraint id="6559" firstItem="4979" firstAttribute="width" constant="61"/>
+                                    <constraint id="6560" firstItem="4979" firstAttribute="height" constant="30"/>
+                                </constraints>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppLogo" translatesAutoresizingMaskIntoConstraints="NO" id="14446">
+                                <rect key="frame" x="143.5" y="43" width="86" height="86.5"/>
+                                <constraints>
+                                    <constraint id="14477" firstAttribute="width" secondItem="14446" secondAttribute="height" multiplier="1:1"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint id="14447" firstItem="4644" firstAttribute="top" secondItem="3891" secondAttribute="bottom" constant="12"/>
+                            <constraint id="14448" firstItem="4644" firstAttribute="leading" secondItem="3895" secondAttribute="leadingMargin" constant="4"/>
+                            <constraint id="14449" firstItem="3895" firstAttribute="trailingMargin" secondItem="4644" secondAttribute="trailing" constant="6"/>
+                            <constraint id="14457" firstItem="4706" firstAttribute="leading" secondItem="4644" secondAttribute="leading" constant="57"/>
+                            <constraint id="14458" firstItem="4644" firstAttribute="trailing" secondItem="4706" secondAttribute="trailing" constant="58"/>
+                            <constraint id="14466" firstItem="4644" firstAttribute="bottom" secondItem="4979" secondAttribute="bottom" constant="20"/>
+                            <constraint id="14469" firstItem="4979" firstAttribute="centerX" secondItem="4644" secondAttribute="centerX"/>
+                            <constraint id="14471" firstItem="4644" firstAttribute="centerY" secondItem="4706" secondAttribute="bottom" constant="4"/>
+                            <constraint id="14475" firstItem="14446" firstAttribute="top" secondItem="4644" secondAttribute="top" constant="11"/>
+                            <constraint id="14476" firstItem="4644" firstAttribute="centerY" secondItem="14446" secondAttribute="bottom" constant="53"/>
+                            <constraint id="14478" firstItem="14446" firstAttribute="centerX" secondItem="4644" secondAttribute="centerX"/>
+                            <constraint id="14479" firstItem="4717" firstAttribute="leading" secondItem="4644" secondAttribute="leading" constant="57"/>
+                            <constraint id="14480" firstItem="4644" firstAttribute="trailing" secondItem="4717" secondAttribute="trailing" constant="58"/>
+                            <constraint id="14481" firstItem="4717" firstAttribute="top" secondItem="4706" secondAttribute="bottom" constant="15"/>
+                            <constraint id="14484" firstItem="4730" firstAttribute="top" secondItem="4717" secondAttribute="bottom" constant="10"/>
+                            <constraint id="14485" firstItem="4730" firstAttribute="leading" secondItem="4644" secondAttribute="leading" constant="57"/>
+                            <constraint id="14486" firstItem="4644" firstAttribute="trailing" secondItem="4730" secondAttribute="trailing" constant="58"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="TxtUserName" destination="4706" id="name-outlet-4706"/>
+                        <outlet property="TxtPassword" destination="4717" id="name-outlet-4717"/>
+                        <outlet property="LoginButton" destination="4730" id="name-outlet-4730"/>
+                        <outlet property="SignupButton" destination="4979" id="name-outlet-4979"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3896" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="580" y="827"/>
+        </scene>
+        <scene sceneID="4125">
+            <objects>
+                <viewController id="4126" sceneMemberID="viewController" customClass="SignupViewController" storyboardIdentifier="SignupViewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4123"/>
+                        <viewControllerLayoutGuide type="bottom" id="4124"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="4127">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppLogoBackground" translatesAutoresizingMaskIntoConstraints="NO" id="4994" fixedFrame="YES">
+                                <rect key="frame" x="-228" y="-4" width="820" height="820"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="4996" translatesAutoresizingMaskIntoConstraints="NO" image="DataBoxAlt" alpha="0.9" userInteractionEnabled="NO">
+                                <rect key="frame" x="20" y="32" width="333" height="360"/>
+                                <constraints>
+                                    <constraint id="15159" firstItem="4996" firstAttribute="height" constant="360"/>
+                                </constraints>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="4997" translatesAutoresizingMaskIntoConstraints="NO" placeholder="User Name">
+                                <rect key="frame" x="78" y="163" width="218" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" spellCheckingType="no" textContentType="username"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="4998" translatesAutoresizingMaskIntoConstraints="NO" placeholder="Password">
+                                <rect key="frame" x="78" y="207" width="218" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" spellCheckingType="no" textContentType="password" secureTextEntry="YES"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="4999" translatesAutoresizingMaskIntoConstraints="NO" placeholder="Confirm Password">
+                                <rect key="frame" x="78" y="250" width="218" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" spellCheckingType="no" textContentType="password" secureTextEntry="YES"/>
+                            </textField>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="5017" translatesAutoresizingMaskIntoConstraints="NO" image="SignUpButton">
+                                <rect key="frame" x="78" y="292" width="218" height="26.5"/>
+                                <constraints>
+                                    <constraint id="15589" firstAttribute="width" secondItem="5017" secondAttribute="height" multiplier="83:10"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5616" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="157" y="342" width="61" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <action selector="CancelButtonSignup_TouchUpInside:" destination="4126" id="11033" eventType="touchUpInside"/>
+                                </connections>
+                                <constraints>
+                                    <constraint id="6902" firstItem="5616" firstAttribute="width" constant="61"/>
+                                    <constraint id="6903" firstItem="5616" firstAttribute="height" constant="30"/>
+                                </constraints>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppLogo" translatesAutoresizingMaskIntoConstraints="NO" id="14859">
+                                <rect key="frame" x="136" y="43" width="101" height="101"/>
+                                <constraints>
+                                    <constraint id="15163" firstAttribute="width" secondItem="14859" secondAttribute="height" multiplier="1:1"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint id="15155" firstItem="4996" firstAttribute="top" secondItem="4123" secondAttribute="bottom" constant="12"/>
+                            <constraint id="15156" firstItem="4996" firstAttribute="leading" secondItem="4127" secondAttribute="leadingMargin" constant="4"/>
+                            <constraint id="15158" firstItem="4127" firstAttribute="trailingMargin" secondItem="4996" secondAttribute="trailing" constant="6"/>
+                            <constraint id="15161" firstItem="14859" firstAttribute="top" secondItem="4996" secondAttribute="top" constant="11"/>
+                            <constraint id="15162" firstItem="4996" firstAttribute="centerY" secondItem="14859" secondAttribute="bottom" constant="68"/>
+                            <constraint id="15514" firstItem="4996" firstAttribute="bottom" secondItem="5616" secondAttribute="bottom" constant="20"/>
+                            <constraint id="15515" firstItem="5616" firstAttribute="centerX" secondItem="4127" secondAttribute="centerX"/>
+                            <constraint id="15516" firstItem="14859" firstAttribute="centerX" secondItem="4996" secondAttribute="centerX"/>
+                            <constraint id="15577" firstItem="4996" firstAttribute="centerY" secondItem="4997" secondAttribute="bottom" constant="19"/>
+                            <constraint id="15578" firstItem="4997" firstAttribute="leading" secondItem="4996" secondAttribute="leading" constant="58"/>
+                            <constraint id="15579" firstItem="4996" firstAttribute="trailing" secondItem="4997" secondAttribute="trailing" constant="57"/>
+                            <constraint id="15580" firstItem="4998" firstAttribute="top" secondItem="4997" secondAttribute="bottom" constant="14"/>
+                            <constraint id="15581" firstItem="4998" firstAttribute="leading" secondItem="4996" secondAttribute="leading" constant="58"/>
+                            <constraint id="15582" firstItem="4996" firstAttribute="trailing" secondItem="4998" secondAttribute="trailing" constant="57"/>
+                            <constraint id="15583" firstItem="4999" firstAttribute="top" secondItem="4998" secondAttribute="bottom" constant="13"/>
+                            <constraint id="15584" firstItem="4999" firstAttribute="leading" secondItem="4996" secondAttribute="leading" constant="58"/>
+                            <constraint id="15585" firstItem="4996" firstAttribute="trailing" secondItem="4999" secondAttribute="trailing" constant="57"/>
+                            <constraint id="15586" firstItem="5017" firstAttribute="leading" secondItem="4996" secondAttribute="leading" constant="58"/>
+                            <constraint id="15587" firstItem="4996" firstAttribute="trailing" secondItem="5017" secondAttribute="trailing" constant="57"/>
+                            <constraint id="15588" firstItem="5017" firstAttribute="top" secondItem="4999" secondAttribute="bottom" constant="12"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="TxtUserNameSignup" destination="4997" id="name-outlet-4997"/>
+                        <outlet property="TxtPasswordSignup" destination="4998" id="name-outlet-4998"/>
+                        <outlet property="TxtPasswordConfirm" destination="4999" id="name-outlet-4999"/>
+                        <outlet property="SignupButton" destination="5017" id="name-outlet-5017"/>
+                        <outlet property="CancelButtonSignup" destination="5616" id="name-outlet-5616"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4128" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1222" y="824"/>
+        </scene>
     </scenes>
     <resources>
         <image name="AppLogo" width="768" height="768"/>
         <image name="AppLogoBackground" width="700" height="700"/>
         <image name="HomeButton" width="120" height="120"/>
-        <image name="Images/pic.png" width="176" height="58"/>
-        <image name="Images/pic2.png" width="86" height="132"/>
+        <image name="DataBox" width="600" height="600"/>
+        <image name="LogInButton" width="803" height="100"/>
+        <image name="DataBoxAlt" width="300" height="300"/>
+        <image name="SignUpButton" width="803" height="100"/>
+        <image name="LogInButtonError" width="810" height="100"/>
+        <image name="SignUpButtonError" width="810" height="100"/>
+        <image name="SideBarButton" width="50" height="50"/>
+        <image name="BackButton" width="40" height="60"/>
+        <image name="LogOutButton" width="70" height="60"/>
+        <image name="Line" width="200" height="4"/>
     </resources>
 </document>

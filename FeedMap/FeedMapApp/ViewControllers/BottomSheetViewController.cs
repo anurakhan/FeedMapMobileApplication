@@ -135,6 +135,8 @@ namespace FeedMapApp
 
         public void MoveSheetToBound(nfloat velocityY)
         {
+            if (View.Frame.Y > m_ViewPop) return;
+
             var bottomSheetY = View.Frame.GetMinY();
             var duration = velocityY < 0 ? (double)((bottomSheetY - m_FullView) / -velocityY)
                 : (double)((m_PartialView - bottomSheetY) / velocityY);

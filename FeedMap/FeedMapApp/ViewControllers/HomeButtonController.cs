@@ -16,7 +16,7 @@ namespace FeedMapApp
 		public override void AwakeFromNib()
 		{
             base.AwakeFromNib();
-            this.Layer.ZPosition = 1;
+            //this.Layer.ZPosition = 1;
             this.Layer.ShadowColor = UIColor.Black.CGColor;
             this.Layer.ShadowOffset = new CGSize(0, 2);
             this.Layer.ShadowRadius = 2f;

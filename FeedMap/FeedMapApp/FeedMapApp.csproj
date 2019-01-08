@@ -131,6 +131,26 @@
     <ImageAsset Include="Assets.xcassets\AppLogoBackground.imageset\BackGroundFeedMapLogo.png" />
     <ImageAsset Include="Assets.xcassets\HomeButton.imageset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\HomeButton.imageset\FeedMapIcon120.png" />
+    <ImageAsset Include="Assets.xcassets\DataBox.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\DataBox.imageset\DataBox.png" />
+    <ImageAsset Include="Assets.xcassets\LogInButton.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\LogInButton.imageset\LogInButtonImg.png" />
+    <ImageAsset Include="Assets.xcassets\DataBoxAlt.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\DataBoxAlt.imageset\DataBoxAlt.png" />
+    <ImageAsset Include="Assets.xcassets\SignUpButton.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\SignUpButton.imageset\SignUpButtonImg.png" />
+    <ImageAsset Include="Assets.xcassets\LogInButtonError.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\LogInButtonError.imageset\LogInButtonImgError.png" />
+    <ImageAsset Include="Assets.xcassets\SignUpButtonError.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\SignUpButtonError.imageset\SignUpButtonImgError.png" />
+    <ImageAsset Include="Assets.xcassets\SideBarButton.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\SideBarButton.imageset\SideBarButton.png" />
+    <ImageAsset Include="Assets.xcassets\BackButton.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\LogOutButton.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\BackButton.imageset\BackButton.png" />
+    <ImageAsset Include="Assets.xcassets\LogOutButton.imageset\LogoutButton.png" />
+    <ImageAsset Include="Assets.xcassets\Line.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\Line.imageset\Line.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets.xcassets\AppLogo.imageset\" />
@@ -143,11 +163,23 @@
     <Folder Include="Services\" />
     <Folder Include="Helpers\" />
     <Folder Include="Views\BottomSheetViews\" />
+    <Folder Include="Assets.xcassets\DataBox.imageset\" />
+    <Folder Include="Assets.xcassets\LogInButton.imageset\" />
+    <Folder Include="Assets.xcassets\DataBoxAlt.imageset\" />
+    <Folder Include="Assets.xcassets\SignUpButton.imageset\" />
+    <Folder Include="Assets.xcassets\LogInButtonError.imageset\" />
+    <Folder Include="Assets.xcassets\SignUpButtonError.imageset\" />
+    <Folder Include="Views\SideBarViews\" />
+    <Folder Include="Assets.xcassets\SideBarButton.imageset\" />
+    <Folder Include="Assets.xcassets\BackButton.imageset\" />
+    <Folder Include="Assets.xcassets\LogOutButton.imageset\" />
+    <Folder Include="Assets.xcassets\Line.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Storyboards\Main.storyboard" />
     <InterfaceDefinition Include="Storyboards\LaunchScreen.storyboard" />
     <InterfaceDefinition Include="Views\BottomSheetViews\BottomSheetViewController.xib" />
+    <InterfaceDefinition Include="Views\SideBarViews\SideBarViewController.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -188,6 +220,23 @@
     <Compile Include="Views\BottomSheetViews\BottomSheetContentViewBuilder.cs" />
     <Compile Include="Models\FoodMarkerImageMeta.cs" />
     <Compile Include="Services\FoodMarkerPhotosFileSystemService.cs" />
+    <Compile Include="ViewControllers\LoginViewController.cs" />
+    <Compile Include="ViewControllers\LoginViewController.designer.cs">
+      <DependentUpon>LoginViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\SignupViewController.cs" />
+    <Compile Include="ViewControllers\SignupViewController.designer.cs">
+      <DependentUpon>SignupViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\SideBarViewController.cs" />
+    <Compile Include="ViewControllers\SideBarViewController.designer.cs">
+      <DependentUpon>SideBarViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\SideBarButtonController.cs" />
+    <Compile Include="ViewControllers\SideBarButtonController.designer.cs">
+      <DependentUpon>SideBarButtonController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SideBarViews\SideBarBackgroundView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\PhotoIosLib\PhotoIosLib.csproj">

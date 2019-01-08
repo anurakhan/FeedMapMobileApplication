@@ -14,10 +14,12 @@ using Chafu;
 
 namespace FeedMapApp
 {
+    //needs refactoring
     public partial class MapHomePageController : UIViewController
     {
         MKMapView MapView;
         private BottomSheetViewController BottomSheetVC { get; set; }
+        private SideBarViewController SideBarVC { get; set; }
         CLLocationManager LocationManager;
         public MapHomePageController(IntPtr handle) : base(handle)
         {
@@ -28,8 +30,13 @@ namespace FeedMapApp
         {
             base.ViewDidLoad();
 
+
             AddBottomSheetView();
+            this.View.BringSubviewToFront(HomeButton);
+            AddSideBarView();
             AddTapGestureToHomeButton();
+            AddTapGestureToSideBarButton();
+
 
             InitMap();
 
@@ -65,12 +72,27 @@ namespace FeedMapApp
             }
         }
 
+        private void AddSideBarView()
+        {
+            var sideBarVC = new SideBarViewController();
+
+            this.AddChildViewController(sideBarVC);
+            this.View.InsertSubviewAbove(sideBarVC.View, HomeButton);
+            sideBarVC.DidMoveToParentViewController(this);
+
+            var sideBarVCHeight = View.Frame.Height;
+            var sideBarVCWidth = View.Frame.Width;
+            sideBarVC.View.Frame = new CGRect(-sideBarVCWidth, 0, sideBarVCWidth, sideBarVCHeight);
+
+            SideBarVC = sideBarVC;
+        }
+
         private void AddBottomSheetView()
         {
             var bottomSheetVC = new BottomSheetViewController();
 
             this.AddChildViewController(bottomSheetVC);
-            this.View.InsertSubviewBelow(bottomSheetVC.View, HomeButton);
+            this.View.InsertSubviewAbove(bottomSheetVC.View, SideBarButton);
             bottomSheetVC.DidMoveToParentViewController(this);
 
             var bottomSheetVCHeight = View.Frame.Height;
@@ -86,11 +108,21 @@ namespace FeedMapApp
             HomeButton.AddGestureRecognizer(tapGesture);
         }
 
-        public void TapHomeButton(UITapGestureRecognizer tapGesture)
+        private void AddTapGestureToSideBarButton()
+        {
+            var tapGesture = new UITapGestureRecognizer(TapSideBarButton);
+            SideBarButton.AddGestureRecognizer(tapGesture);
+        }
+
+        private void TapHomeButton(UITapGestureRecognizer tapGesture)
         {
             BottomSheetVC.MoveSheetToBound(1);
         }
 
+        private void TapSideBarButton(UITapGestureRecognizer tapGesture)
+        {
+            SideBarVC.RevealSideBar(0.5);
+        }
 
         class MapDelegate : MKMapViewDelegate
         {

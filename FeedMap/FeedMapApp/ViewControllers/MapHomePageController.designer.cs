@@ -18,11 +18,20 @@ namespace FeedMapApp
         [GeneratedCode ("iOS Designer", "1.0")]
         FeedMapApp.HomeButtonController HomeButton { get; set; }
 
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        FeedMapApp.SideBarButtonController SideBarButton { get; set; }
+
         void ReleaseDesignerOutlets ()
         {
             if (HomeButton != null) {
                 HomeButton.Dispose ();
                 HomeButton = null;
+            }
+
+            if (SideBarButton != null) {
+                SideBarButton.Dispose ();
+                SideBarButton = null;
             }
         }
     }

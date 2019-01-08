@@ -34,5 +34,12 @@
         <image name="AppLogo" width="768" height="768"/>
         <image name="AppLogoBackground" width="700" height="700"/>
         <image name="HomeButton" width="120" height="120"/>
+        <image name="DataBox" width="600" height="600"/>
+        <image name="LogInButton" width="803" height="100"/>
+        <image name="DataBoxAlt" width="300" height="300"/>
+        <image name="SignUpButton" width="803" height="100"/>
+        <image name="LogInButtonError" width="810" height="100"/>
+        <image name="SignUpButtonError" width="810" height="100"/>
+        <image name="SideBarButton" width="50" height="50"/>
     </resources>
 </document>

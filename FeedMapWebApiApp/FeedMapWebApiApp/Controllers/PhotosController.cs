@@ -30,33 +30,41 @@ namespace FeedMapWebApiApp.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> Get(int id)
+        public ActionResult Get(int id)
         {
             FoodMarkerImageDTO imageMeta = _repoImageMeta.GetFoodMarkerImage(id);
 
             if (imageMeta == null) return NotFound();
 
-            using (Stream stream = new MemoryStream())
-            {
-                string contentType = await _repoImageFile.GetFile(imageMeta, stream);
-                byte[] buffer = ((MemoryStream)stream).ToArray();
-                return File(buffer, contentType, imageMeta.FileName);
-            }
+            return Ok(
+                new FoodMarkerImageDataClient { ImageUrl = WebUtility.UrlEncode(_repoImageFile.GetFileUrl(imageMeta)) }
+            );
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetByFoodMarkerId([FromQuery(Name = "foodMarkerId")] int foodMarkerId)
+        public ActionResult GetByFoodMarkerId([FromQuery(Name = "foodMarkerId")] int foodMarkerId)
         {
-            FoodMarkerImageDTO topImageMeta = _repoImageMeta.GetTopFoodMarkerImageByFoodMarkerId(foodMarkerId);
+            var imageMetas = _repoImageMeta.GetFoodMarkerImageByFoodMarkerId(foodMarkerId);
 
-            if (topImageMeta == null) return NotFound();
+            if (imageMetas == null || !imageMetas.Any()) return NotFound();
 
-            using (Stream stream = new MemoryStream())
+            List<FoodMarkerImageDataClient> lstFoodMarkerImageData =
+                new List<FoodMarkerImageDataClient>();
+
+            foreach (var imageMeta in imageMetas)
             {
-                string contentType = await _repoImageFile.GetFile(topImageMeta, stream);
-                byte[] buffer = ((MemoryStream)stream).ToArray();
-                return File(buffer, contentType, topImageMeta.FileName);
+                lstFoodMarkerImageData.Add(
+                    new FoodMarkerImageDataClient
+                    {
+                        ImageUrl = WebUtility.UrlEncode(_repoImageFile.GetFileUrl(imageMeta)),
+                        imageRank = (imageMeta.ImageRank.HasValue ?
+                                 imageMeta.ImageRank.Value : 2)
+                    });
             }
+
+            return Ok(
+                lstFoodMarkerImageData
+            );
         }
     }
 }

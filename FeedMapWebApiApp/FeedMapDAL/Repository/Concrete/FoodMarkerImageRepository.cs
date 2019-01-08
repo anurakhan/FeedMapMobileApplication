@@ -20,8 +20,8 @@ namespace FeedMapDAL.Repository.Concrete
 
         public IEnumerable<FoodMarkerImageDTO> GetFoodMarkerImages()
         {
-            string sql = " SELECT FMP_ID, FMP_FM_ID, FMP_FILE_NAME ";
-            sql += " FROM FoodMarkerPhotos ";
+            string sql = " SELECT FMP_ID, FMP_FM_ID, FMP_FILE_NAME, FMP_CLIENT_FILE_NAME, ";
+            sql += " FMP_FMPR_ID FROM FoodMarkerPhotos ";
             DataTable retTbl = m_DataAccess.FillTable(sql);
 
             if (retTbl.Rows.Count == 0) return null;
@@ -33,7 +33,9 @@ namespace FeedMapDAL.Repository.Concrete
                 {
                     Id = (int)row["FMP_ID"],
                     FoodMarkerId = (int)row["FMP_FM_ID"],
-                    FileName = (string)row["FMP_FILE_NAME"]
+                    FileName = (string)row["FMP_FILE_NAME"],
+                    ClientFileName = (string)row["FMP_CLIENT_FILE_NAME"],
+                    ImageRank = (int?)row["FMP_FMPR_ID"]
                 });
             }
             return retLst;
@@ -44,8 +46,8 @@ namespace FeedMapDAL.Repository.Concrete
             List<SqlParameter> sqlParams = new List<SqlParameter>();
             sqlParams.Add("@id", SqlDbType.Int, (object)id);
 
-            string sql = " SELECT FMP_FM_ID, FMP_FILE_NAME ";
-            sql += " FROM FoodMarkerPhotos ";
+            string sql = " SELECT FMP_FM_ID, FMP_FILE_NAME, FMP_CLIENT_FILE_NAME, ";
+            sql += " FMP_FMPR_ID FROM FoodMarkerPhotos ";
             sql += " WHERE FMP_ID = @id ";
 
             DataTable tbl = m_DataAccess.FillTable(sql, sqlParams);
@@ -56,7 +58,9 @@ namespace FeedMapDAL.Repository.Concrete
             {
                 Id = id,
                 FoodMarkerId = (int)tbl.Rows[0]["FMP_FM_ID"],
-                FileName = (string)tbl.Rows[0]["FMP_FILE_NAME"]
+                FileName = (string)tbl.Rows[0]["FMP_FILE_NAME"],
+                ClientFileName = (string)tbl.Rows[0]["FMP_CLIENT_FILE_NAME"],
+                ImageRank = (int?)tbl.Rows[0]["FMP_FMPR_ID"]
             };
         }
 
@@ -65,10 +69,10 @@ namespace FeedMapDAL.Repository.Concrete
             List<SqlParameter> sqlParams = new List<SqlParameter>();
             sqlParams.Add("@foodMarkerId", SqlDbType.Int, (object)id);
 
-            string sql = " SELECT FMP_ID, FMP_FM_ID, FMP_FILE_NAME ";
-            sql += " FROM FoodMarkerPhotos ";
-            sql += " WHERE FMP_FM_ID == @foodMarkerId ";
-            DataTable retTbl = m_DataAccess.FillTable(sql);
+            string sql = " SELECT FMP_ID, FMP_FM_ID, FMP_FILE_NAME, FMP_CLIENT_FILE_NAME, ";
+            sql += " FMP_FMPR_ID FROM FoodMarkerPhotos ";
+            sql += " WHERE FMP_FM_ID = @foodMarkerId ";
+            DataTable retTbl = m_DataAccess.FillTable(sql, sqlParams);
 
             if (retTbl.Rows.Count == 0) return null;
 
@@ -79,7 +83,9 @@ namespace FeedMapDAL.Repository.Concrete
                 {
                     Id = (int)row["FMP_ID"],
                     FoodMarkerId = (int)row["FMP_FM_ID"],
-                    FileName = (string)row["FMP_FILE_NAME"]
+                    FileName = (string)row["FMP_FILE_NAME"],
+                    ClientFileName = (string)row["FMP_CLIENT_FILE_NAME"],
+                    ImageRank = (int?)row["FMP_FMPR_ID"]
                 });
             }
             return retLst;
@@ -89,9 +95,9 @@ namespace FeedMapDAL.Repository.Concrete
         {
             List<SqlParameter> sqlParams = new List<SqlParameter>();
             sqlParams.Add("@foodMarkerId", SqlDbType.Int, (object)id);
-            
-            string sql = " SELECT TOP(1) FMP_ID, FMP_FM_ID, FMP_FILE_NAME ";
-            sql += " FROM FoodMarkerPhotos ";
+
+            string sql = " SELECT TOP(1) FMP_ID, FMP_FM_ID, FMP_FILE_NAME, FMP_CLIENT_FILE_NAME, ";
+            sql += " FMP_FMPR_ID FROM FoodMarkerPhotos ";
             sql += " WHERE FMP_FM_ID = @foodMarkerId ";
             DataTable tbl = m_DataAccess.FillTable(sql, sqlParams);
 
@@ -101,7 +107,9 @@ namespace FeedMapDAL.Repository.Concrete
             {
                 Id = (int)tbl.Rows[0]["FMP_ID"],
                 FoodMarkerId = (int)tbl.Rows[0]["FMP_FM_ID"],
-                FileName = (string)tbl.Rows[0]["FMP_FILE_NAME"]
+                FileName = (string)tbl.Rows[0]["FMP_FILE_NAME"],
+                ClientFileName = (string)tbl.Rows[0]["FMP_CLIENT_FILE_NAME"],
+                ImageRank = (int?)tbl.Rows[0]["FMP_FMPR_ID"]
             };
         }
 
@@ -109,10 +117,12 @@ namespace FeedMapDAL.Repository.Concrete
         {
             using (SqlConnection conn = new SqlConnection(m_DataAccess.ConnectionString))
             {
+                conn.Open();
                 using (SqlCommand cmd = m_DataAccess.GetCommand("ADD_IMAGE", CommandType.StoredProcedure, conn))
                 {
                     cmd.Parameters.Add(m_DataAccess.BuildSqlParam("@fmid", SqlDbType.Int, foodMarkerImg.FoodMarkerId));
                     cmd.Parameters.Add(m_DataAccess.BuildSqlParam("@filename", SqlDbType.VarChar, foodMarkerImg.FileName));
+                    cmd.Parameters.Add(m_DataAccess.BuildSqlParam("@clientfilename", SqlDbType.VarChar, foodMarkerImg.ClientFileName));
                     cmd.Parameters.Add("@id", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                     cmd.ExecuteNonQuery();
