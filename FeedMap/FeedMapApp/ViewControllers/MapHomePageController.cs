@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FeedMapApp.Helpers;
 using FeedMapApp.Services;
+using FeedMapApp.Services.Navigation;
 using Chafu;
 
 namespace FeedMapApp
@@ -59,17 +60,27 @@ namespace FeedMapApp
 
         private async Task AppendToFoodMarkerAnnotations()
         {
-            RestService service = new RestService();
-            IEnumerable<FoodMarker> foodMarkers = await service.GetAllFoodMarkerPosits();
+            FoodMarkerService foodMarkerService = new FoodMarkerService();
+            foodMarkerService.OnFail += OnLogout;
+
+
+            IEnumerable<FoodMarker> foodMarkers = await foodMarkerService.GetAllFoodMarkerPositions();
             AnnotationService annotationService = new AnnotationService();
 
             foreach (FoodMarker marker in foodMarkers)
             {
-                var imageMetas = await service.GetFoodMarkerPhotos(marker.FoodMarkerId);
+                var imageMetas = await foodMarkerService.GetFoodMarkerPhotos(marker.FoodMarkerId);
                 marker.FoodMarkerPhotos = imageMetas;
                 FoodMarkerAnnotation annotation = annotationService.LoadAnnotations(marker);
                 MapView.AddAnnotation(annotation);
             }
+        }
+
+        private void OnLogout(object sender, EventArgs eventArgs)
+        {
+            LogoutService logoutService = new LogoutService(
+                UIApplication.SharedApplication.Delegate as AppDelegate);
+            logoutService.LogoutStart();
         }
 
         private void AddSideBarView()

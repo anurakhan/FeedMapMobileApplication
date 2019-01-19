@@ -1,7 +1,7 @@
 ﻿using System;
 namespace FeedMapDTO
 {
-    public class FoodMarkerImageDTO
+    public class FoodMarkerImageDataDTO
     {
         public int Id { get; set; }
         public int FoodMarkerId { get; set; }

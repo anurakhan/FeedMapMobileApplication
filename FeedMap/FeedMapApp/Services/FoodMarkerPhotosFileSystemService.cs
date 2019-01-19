@@ -3,21 +3,23 @@ using System.IO;
 using FeedMapApp.Models;
 using Foundation;
 using UIKit;
+using FeedMapApp.Helpers.DirectoryHelpers;
+
 
 namespace FeedMapApp.Services
 {
     public class FoodMarkerPhotosFileSystemService
     {
         private FoodMarker _marker;
+        private DirectoryAccess _directoryAccess;
         private readonly string _path;
 
 
         public FoodMarkerPhotosFileSystemService(FoodMarker marker)
         {
+            IDirectory directory = new FoodMarkerImageDirectory();
             _marker = marker;
-            _path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            _path = Path.Combine(_path, "..", "tmp");
-            _path = Path.Combine(_path, "feedmapphotos");
+            _directoryAccess = new DirectoryAccess(directory);
         }
 
         public void UploadFoodMarkerPhotosToDir()
@@ -40,7 +42,7 @@ namespace FeedMapApp.Services
                 {
                     byte[] buffer = new byte[data.Length];
                     System.Runtime.InteropServices.Marshal.Copy(data.Bytes, buffer, 0, Convert.ToInt32(data.Length));
-                    File.WriteAllBytes(Path.Combine(_path, i.ToString() + ".png"), buffer);
+                    _directoryAccess.UploadFile(buffer, Path.Combine(_path, i.ToString() + ".png"));
                 }
                 i++;
             }

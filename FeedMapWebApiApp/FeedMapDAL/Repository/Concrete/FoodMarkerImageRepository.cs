@@ -18,7 +18,7 @@ namespace FeedMapDAL.Repository.Concrete
             m_DataAccess = new DataAccess(configuration.GetConnectionString("FeedMapDataBase"));
         }
 
-        public IEnumerable<FoodMarkerImageDTO> GetFoodMarkerImages()
+        public IEnumerable<FoodMarkerImageDataDTO> GetFoodMarkerImages()
         {
             string sql = " SELECT FMP_ID, FMP_FM_ID, FMP_FILE_NAME, FMP_CLIENT_FILE_NAME, ";
             sql += " FMP_FMPR_ID FROM FoodMarkerPhotos ";
@@ -26,10 +26,10 @@ namespace FeedMapDAL.Repository.Concrete
 
             if (retTbl.Rows.Count == 0) return null;
 
-            List<FoodMarkerImageDTO> retLst = new List<FoodMarkerImageDTO>();
+            List<FoodMarkerImageDataDTO> retLst = new List<FoodMarkerImageDataDTO>();
             foreach (DataRow row in retTbl.Rows)
             {
-                retLst.Add(new FoodMarkerImageDTO()
+                retLst.Add(new FoodMarkerImageDataDTO()
                 {
                     Id = (int)row["FMP_ID"],
                     FoodMarkerId = (int)row["FMP_FM_ID"],
@@ -41,7 +41,7 @@ namespace FeedMapDAL.Repository.Concrete
             return retLst;
         }
 
-        public FoodMarkerImageDTO GetFoodMarkerImage(int id)
+        public FoodMarkerImageDataDTO GetFoodMarkerImage(int id)
         {
             List<SqlParameter> sqlParams = new List<SqlParameter>();
             sqlParams.Add("@id", SqlDbType.Int, (object)id);
@@ -54,7 +54,7 @@ namespace FeedMapDAL.Repository.Concrete
 
             if (tbl.Rows.Count == 0) return null;
 
-            return new FoodMarkerImageDTO
+            return new FoodMarkerImageDataDTO
             {
                 Id = id,
                 FoodMarkerId = (int)tbl.Rows[0]["FMP_FM_ID"],
@@ -64,7 +64,7 @@ namespace FeedMapDAL.Repository.Concrete
             };
         }
 
-        public IEnumerable<FoodMarkerImageDTO> GetFoodMarkerImageByFoodMarkerId(int id)
+        public IEnumerable<FoodMarkerImageDataDTO> GetFoodMarkerImageByFoodMarkerId(int id)
         {
             List<SqlParameter> sqlParams = new List<SqlParameter>();
             sqlParams.Add("@foodMarkerId", SqlDbType.Int, (object)id);
@@ -76,10 +76,10 @@ namespace FeedMapDAL.Repository.Concrete
 
             if (retTbl.Rows.Count == 0) return null;
 
-            List<FoodMarkerImageDTO> retLst = new List<FoodMarkerImageDTO>();
+            List<FoodMarkerImageDataDTO> retLst = new List<FoodMarkerImageDataDTO>();
             foreach (DataRow row in retTbl.Rows)
             {
-                retLst.Add(new FoodMarkerImageDTO()
+                retLst.Add(new FoodMarkerImageDataDTO()
                 {
                     Id = (int)row["FMP_ID"],
                     FoodMarkerId = (int)row["FMP_FM_ID"],
@@ -91,7 +91,7 @@ namespace FeedMapDAL.Repository.Concrete
             return retLst;
         }
 
-        public FoodMarkerImageDTO GetTopFoodMarkerImageByFoodMarkerId(int id)
+        public FoodMarkerImageDataDTO GetTopFoodMarkerImageByFoodMarkerId(int id)
         {
             List<SqlParameter> sqlParams = new List<SqlParameter>();
             sqlParams.Add("@foodMarkerId", SqlDbType.Int, (object)id);
@@ -103,7 +103,7 @@ namespace FeedMapDAL.Repository.Concrete
 
             if (tbl.Rows.Count == 0) return null;
 
-            return new FoodMarkerImageDTO
+            return new FoodMarkerImageDataDTO
             {
                 Id = (int)tbl.Rows[0]["FMP_ID"],
                 FoodMarkerId = (int)tbl.Rows[0]["FMP_FM_ID"],
@@ -113,7 +113,7 @@ namespace FeedMapDAL.Repository.Concrete
             };
         }
 
-        public int Post(FoodMarkerImageDTO foodMarkerImg)
+        public int Post(FoodMarkerImageDataDTO foodMarkerImg)
         {
             using (SqlConnection conn = new SqlConnection(m_DataAccess.ConnectionString))
             {
@@ -131,7 +131,7 @@ namespace FeedMapDAL.Repository.Concrete
             }
         }
 
-        public void Update(FoodMarkerImageDTO foodMarkerImg, int id)
+        public void Update(FoodMarkerImageDataDTO foodMarkerImg, int id)
         {
             throw new NotImplementedException();
         }

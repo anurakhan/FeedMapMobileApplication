@@ -9,6 +9,7 @@ using System.Linq;
 using Foundation;
 using Chafu;
 using System.IO;
+using FeedMapApp.Helpers.DirectoryHelpers;
 
 namespace FeedMapApp.Views.BottomSheetViews
 {
@@ -328,15 +329,12 @@ namespace FeedMapApp.Views.BottomSheetViews
             _image.Layer.CornerRadius = 15f;
 
 
-            var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            path = Path.Combine(path, "..", "tmp");
-            path = Path.Combine(path, "feedmapphotos");
-
             Configuration.TintColor = UIColor.Yellow;
             var gallery = new AlbumViewController()
             {
                 LazyDataSource = (view, size, mediaTypes) =>
-                    new LocalFilesDataSource(view, size, mediaTypes) { ImagesPath = path },
+                    new LocalFilesDataSource(view, size, mediaTypes) { 
+                    ImagesPath = (new FoodMarkerImageDirectory()).GetDir() },
                 LazyDelegate = (view, source) => new LocalFilesDelegate(view, (LocalFilesDataSource)source)
             };
 

@@ -8,21 +8,41 @@ namespace FeedMapWebApiApp
 {
     public class AutoMapperConfig
     {
-        public void Initialize()
+        MapperConfiguration _config;
+
+        public AutoMapperConfig()
         {
-            Mapper.Initialize(cfg =>
+            _config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<FoodCategory, FoodCategoryDTO>();
-                cfg.CreateMap<FoodMarker, FoodMarkerDTO>();
-                cfg.CreateMap<FoodMarkerImage, FoodMarkerImageDTO>();
-                cfg.CreateMap<Restaurant, RestaurantDTO>();
+                //DTOs to Domain object mapping
+                cfg.CreateMap<FoodCategory, FoodCategoryDTO>().ReverseMap();
+                cfg.CreateMap<FoodMarker, FoodMarkerDTO>().ReverseMap();
+                cfg.CreateMap<FoodMarkerImageData, FoodMarkerImageDataDTO>().ReverseMap();
+                cfg.CreateMap<Restaurant, RestaurantDTO>().ReverseMap();
+                cfg.CreateMap<User, UserDTO>().ReverseMap();
+                cfg.CreateMap<FullFoodAndGeoData, CompleteFoodDataDTO>().ReverseMap();
+                cfg.CreateMap<User, UserDTO>();
+                cfg.CreateMap<UserDTO, User>()
+                .ConstructUsing(s => new User(s.Id,
+                                              s.UserName,
+                                              s.PasswordHash,
+                                              s.PasswordSalt));
 
-                cfg.CreateMap<FoodCategoryClient, FoodCategory>();
-                cfg.CreateMap<FoodMarkerClient, FoodMarker>();
-                cfg.CreateMap<RestaurantClient, Restaurant>();
+                //Domain to WepApi Gateway object mapping
+                cfg.CreateMap<FullFoodAndGeoDataClient, FullFoodAndGeoData>().ReverseMap();
+                cfg.CreateMap<FoodCategoryClient, FoodCategory>().ReverseMap();
+                cfg.CreateMap<FoodMarkerClient, FoodMarker>().ReverseMap();
+                cfg.CreateMap<RestaurantClient, Restaurant>().ReverseMap();
+                cfg.CreateMap<UserDataClient, User>()
+                .ConstructUsing(s => new User(s.UserName, s.HashedPassword));
+                cfg.CreateMap<User, UserDataClient>();
 
-                cfg.CreateMap<CompleteFoodDataDTO, FullFoodAndGeoDataClient>();
             });
+        }
+
+        public IMapper GetMapperInstance()
+        {
+            return _config.CreateMapper();
         }
     }
 }

@@ -7,35 +7,36 @@ using FeedMapWebApiApp.Models;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
-using FeedMapDAL.Repository.Abstract;
-using FeedMapDAL;
 using FeedMapDTO;
 using FeedMapBLL.Domain;
 using AutoMapper;
+using FeedMapBLL.Services.Abstract;
 
 namespace FeedMapWebApiApp.Controllers
 {
     [Route("api/[controller]")]
     public class RestaurantsController : Controller
     {
-        private IRestaurantRepository _repo;
+        private IRestaurantService _service;
+        private IMapper _mapper;
 
-        public RestaurantsController(RepositoryPayload repoPayload)
+        public RestaurantsController(IRestaurantService service,
+                                    IMapper mapper)
         {
-            _repo = repoPayload.GetRestaurantRepository();
+            _service = service;
+            _mapper = mapper;
         }
 
         // GET: api/Restaurants
         [HttpGet]
         public IEnumerable<RestaurantClient> Get()
         {
+            IEnumerable<Restaurant> restaurants = _service.GetRestaurants();
             List<RestaurantClient> retLst = new List<RestaurantClient>();
 
-            IEnumerable<RestaurantDTO> restaurantsDto = _repo.GetRestaurants();
-            foreach (RestaurantDTO restaurantDto in restaurantsDto)
+            foreach (var restaurant in restaurants)
             {
-                Restaurant restaurant = Mapper.Map<Restaurant>(restaurantDto);
-                RestaurantClient restaurantRet = Mapper.Map<RestaurantClient>(restaurant);
+                RestaurantClient restaurantRet = _mapper.Map<RestaurantClient>(restaurant);
                 retLst.Add(restaurantRet);
             }
 
@@ -46,9 +47,8 @@ namespace FeedMapWebApiApp.Controllers
         [HttpGet("{id}")]
         public RestaurantClient Get(int id)
         {
-            RestaurantDTO restaurantDto = _repo.GetRestaurant(id);
-            Restaurant restaurant = Mapper.Map<Restaurant>(restaurantDto);
-            return Mapper.Map<RestaurantClient>(restaurant);
+            var restaurant = _service.GetRestaurant(id);
+            return _mapper.Map<RestaurantClient>(restaurant);
         }
 
         // POST api/Restaurants
@@ -60,10 +60,8 @@ namespace FeedMapWebApiApp.Controllers
                 BadRequest();
             }
 
-            Restaurant restaurant = Mapper.Map<Restaurant>(reqObj);
-            RestaurantDTO restaurantDto = Mapper.Map<RestaurantDTO>(restaurant);
-            int id = _repo.Post(restaurantDto);
-
+            Restaurant restaurant = _mapper.Map<Restaurant>(reqObj);
+            int id = _service.PostRestaurant(restaurant);
             return id;
         }
     }

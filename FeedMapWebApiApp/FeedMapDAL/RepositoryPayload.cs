@@ -19,6 +19,7 @@ namespace FeedMapDAL
         public IFoodCategoryRepository GetFoodCategoryRepository() => new FoodCategoryRepository(_configuration);
         public IFoodMarkerImageRepository GetFoodMarkerImageRepository() => new FoodMarkerImageRepository(_configuration);
         public ICompleteFoodDataRepository GetCompleteFoodDataRepository() => new CompleteFoodDataRepository(_configuration);
+        public IUserDataRepository GetUserDataRepository() => new UserDataRepository(_configuration);
         public IMediaFileRepository GetFileRepository() => new AzureFileRepository(_configuration);
     }
 }

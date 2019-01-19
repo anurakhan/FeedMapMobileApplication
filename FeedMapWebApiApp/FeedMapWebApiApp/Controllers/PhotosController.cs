@@ -11,54 +11,61 @@ using System.Data;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using FeedMapDAL;
-using FeedMapDAL.Repository.Abstract;
 using FeedMapDTO;
+using FeedMapBLL.Services.Abstract;
+using AutoMapper;
+using FeedMapBLL.Domain;
 
 namespace FeedMapWebApiApp.Controllers
 {
     [Route("api/[controller]")]
     public class PhotosController : Controller
     {
-        private IFoodMarkerImageRepository _repoImageMeta;
-        private IMediaFileRepository _repoImageFile;
+        private IPhotoService _service;
+        private IMapper _mapper;
 
-        public PhotosController(RepositoryPayload repoPayload)
+        public PhotosController(IPhotoService photoService,
+                               IMapper mapper)
         {
-            _repoImageMeta = repoPayload.GetFoodMarkerImageRepository();
-            _repoImageFile = repoPayload.GetFileRepository();
+            _service = photoService;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
-            FoodMarkerImageDTO imageMeta = _repoImageMeta.GetFoodMarkerImage(id);
 
-            if (imageMeta == null) return NotFound();
+            FoodMarkerPhoto photo = _service.GetPhotoById(id);
+
+            if (photo == null) return NotFound();
 
             return Ok(
-                new FoodMarkerImageDataClient { ImageUrl = WebUtility.UrlEncode(_repoImageFile.GetFileUrl(imageMeta)) }
+                new FoodMarkerPhotoClient
+                {
+                    ImageUrl = WebUtility.UrlEncode(photo.ImageUrl),
+                    ImageRank = photo.ImageRank
+                }
             );
         }
 
         [HttpGet]
         public ActionResult GetByFoodMarkerId([FromQuery(Name = "foodMarkerId")] int foodMarkerId)
         {
-            var imageMetas = _repoImageMeta.GetFoodMarkerImageByFoodMarkerId(foodMarkerId);
+            IEnumerable<FoodMarkerPhoto> photos =
+                _service.GetPhotosByFoodMarkerId(foodMarkerId);
 
-            if (imageMetas == null || !imageMetas.Any()) return NotFound();
+            if (photos == null) return NotFound();
 
-            List<FoodMarkerImageDataClient> lstFoodMarkerImageData =
-                new List<FoodMarkerImageDataClient>();
+            List<FoodMarkerPhotoClient> lstFoodMarkerImageData =
+                new List<FoodMarkerPhotoClient>();
 
-            foreach (var imageMeta in imageMetas)
+            foreach (var photo in photos)
             {
                 lstFoodMarkerImageData.Add(
-                    new FoodMarkerImageDataClient
+                    new FoodMarkerPhotoClient
                     {
-                        ImageUrl = WebUtility.UrlEncode(_repoImageFile.GetFileUrl(imageMeta)),
-                        imageRank = (imageMeta.ImageRank.HasValue ?
-                                 imageMeta.ImageRank.Value : 2)
+                        ImageUrl = WebUtility.UrlEncode(photo.ImageUrl),
+                        ImageRank = photo.ImageRank
                     });
             }
 

@@ -7,10 +7,10 @@ namespace FeedMapDAL.Repository.Abstract
 {
     public interface IMediaFileRepository
     {
-        Task<string> GetFile(FoodMarkerImageDTO foodMarkerImageDto, Stream stream);
+        Task<string> GetFile(FoodMarkerImageDataDTO foodMarkerImageDto, Stream stream);
 
-        Task PostFile(FoodMarkerImageDTO foodMarkerImageDto, string contentType, Stream stream);
+        Task PostFile(FoodMarkerImageDataDTO foodMarkerImageDto, string contentType, Stream stream);
 
-        string GetFileUrl(FoodMarkerImageDTO foodMarkerImageDto);
+        string GetFileUrl(FoodMarkerImageDataDTO foodMarkerImageDto);
     }
 }

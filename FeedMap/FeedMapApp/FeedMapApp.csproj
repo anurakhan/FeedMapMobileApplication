@@ -26,8 +26,10 @@
     <IOSDebuggerPort>38208</IOSDebuggerPort>
     <MtouchLink>None</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
-    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchFloat32>true</MtouchFloat32>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>pdbonly</DebugType>
@@ -40,7 +42,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchArch>ARM64</MtouchArch>
-    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
@@ -53,7 +55,7 @@
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchLink>None</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
-    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
@@ -74,7 +76,7 @@
     <IOSDebuggerPort>55857</IOSDebuggerPort>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchArch>ARM64</MtouchArch>
-    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
@@ -174,6 +176,9 @@
     <Folder Include="Assets.xcassets\BackButton.imageset\" />
     <Folder Include="Assets.xcassets\LogOutButton.imageset\" />
     <Folder Include="Assets.xcassets\Line.imageset\" />
+    <Folder Include="Services\Navigation\" />
+    <Folder Include="Models\Abstract\" />
+    <Folder Include="Helpers\DirectoryHelpers\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Storyboards\Main.storyboard" />
@@ -237,6 +242,25 @@
       <DependentUpon>SideBarButtonController.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\SideBarViews\SideBarBackgroundView.cs" />
+    <Compile Include="Models\UserData.cs" />
+    <Compile Include="WebApiCred.cs" />
+    <Compile Include="Services\UserAuthService.cs" />
+    <Compile Include="Helpers\EncryptUtil.cs" />
+    <Compile Include="Helpers\UriPath.cs" />
+    <Compile Include="Models\UserToken.cs" />
+    <Compile Include="Models\RestReturnObj.cs" />
+    <Compile Include="Services\TokenPersistanceService.cs" />
+    <Compile Include="Helpers\KeyChainUtil.cs" />
+    <Compile Include="Services\FoodMarkerService.cs" />
+    <Compile Include="Services\TokenPingService.cs" />
+    <Compile Include="Services\Navigation\LogoutService.cs" />
+    <Compile Include="Services\Navigation\LoginService.cs" />
+    <Compile Include="Models\Abstract\IHeaderBuilder.cs" />
+    <Compile Include="Models\Abstract\TokenHeaderBuilder.cs" />
+    <Compile Include="Models\Abstract\UserAuthHeaderBuilder.cs" />
+    <Compile Include="Helpers\DirectoryHelpers\IDirectory.cs" />
+    <Compile Include="Helpers\DirectoryHelpers\TempDirectory.cs" />
+    <Compile Include="Helpers\DirectoryHelpers\FoodMarkerImageDirectory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\PhotoIosLib\PhotoIosLib.csproj">

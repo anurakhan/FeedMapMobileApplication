@@ -1,5 +1,7 @@
 ﻿using System;
 using CoreGraphics;
+using FeedMapApp.Services;
+using FeedMapApp.Services.Navigation;
 using FeedMapApp.Views.SideBarViews;
 using UIKit;
 
@@ -40,20 +42,13 @@ namespace FeedMapApp
 
         private void LogOutButtonPressed()
         {
-            var appDelegate = UIApplication.SharedApplication.Delegate as AppDelegate;
+            var tokenPersistanceService = new TokenPersistanceService();
+            tokenPersistanceService.RemoveToken(WebApiCred.KeyChainTokenKey);
 
-            var mainStoryboard = appDelegate.MainStoryboard;
+            LogoutService logOutService = new LogoutService(
+                UIApplication.SharedApplication.Delegate as AppDelegate);
 
-            var loginViewController =
-                appDelegate.GetViewController(appDelegate.MainStoryboard, "LoginViewController") as LoginViewController;
-
-            loginViewController.OnLoginSuccess += (s, e) =>
-            {
-                var mapHomePageController = appDelegate.GetViewController(mainStoryboard, "MapHomePageController");
-                appDelegate.SetRootViewController(mapHomePageController, true);
-            };
-
-            appDelegate.SetRootViewController(loginViewController, true);
+            logOutService.LogoutStart();
         }
 
         public override void DidReceiveMemoryWarning()

@@ -7,34 +7,36 @@ using FeedMapWebApiApp.Models;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
-using FeedMapDAL.Repository.Abstract;
-using FeedMapDAL;
 using FeedMapDTO;
 using FeedMapBLL.Domain;
 using AutoMapper;
+using FeedMapBLL.Services.Abstract;
 
 namespace FeedMapWebApiApp.Controllers
 {
     [Route("api/[controller]")]
     public class FoodMarkerController : Controller
     {
-        private IFoodMarkerRepository _repo;
+        private IFoodMarkerService _service;
+        private IMapper _mapper;
 
-        public FoodMarkerController(RepositoryPayload repoPayload)
+        public FoodMarkerController(IFoodMarkerService service,
+                                    IMapper mapper)
         {
-            _repo = repoPayload.GetFoodMarkerRepository();
+            _service = service;
+            _mapper = mapper;
         }
 
         // GET: api/FoodMarker
         [HttpGet]
         public IEnumerable<FoodMarkerClient> Get()
         {
+            var markers = _service.GetFoodMarkers();
+
             List<FoodMarkerClient> retLst = new List<FoodMarkerClient>();
-            IEnumerable<FoodMarkerDTO> foodMarkersDto = _repo.GetFoodMarkers();
-            foreach (FoodMarkerDTO foodMarkerDto in foodMarkersDto)
+            foreach (var marker in markers)
             {
-                FoodMarker foodMarker = Mapper.Map<FoodMarker>(foodMarkerDto);
-                FoodMarkerClient foodMarkerRet = Mapper.Map<FoodMarkerClient>(foodMarker);
+                FoodMarkerClient foodMarkerRet = _mapper.Map<FoodMarkerClient>(marker);
                 retLst.Add(foodMarkerRet);
             }
 
@@ -45,9 +47,8 @@ namespace FeedMapWebApiApp.Controllers
         [HttpGet("{id}")]
         public FoodMarkerClient Get(int id)
         {
-            FoodMarkerDTO foodMarkerDto = _repo.GetFoodMarker(id);
-            FoodMarker foodMarker = Mapper.Map<FoodMarker>(foodMarkerDto);
-            return Mapper.Map<FoodMarkerClient>(foodMarker);
+            FoodMarker foodMarker = _service.GetFoodMarker(id);
+            return _mapper.Map<FoodMarkerClient>(foodMarker);
         }
 
         // POST api/FoodMarker
@@ -59,11 +60,8 @@ namespace FeedMapWebApiApp.Controllers
                 BadRequest();
             }
 
-            FoodMarker foodMarker = Mapper.Map<FoodMarker>(reqObj);
-            FoodMarkerDTO foodMarkerDTO = Mapper.Map<FoodMarkerDTO>(foodMarker);
-            int id = _repo.Post(foodMarkerDTO);
-
-            return id;
+            FoodMarker foodMarker = _mapper.Map<FoodMarker>(reqObj);
+            return _service.PostFoodMarker(foodMarker);
         }
 
     }

@@ -7,22 +7,24 @@ using FeedMapWebApiApp.Models;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
-using FeedMapDAL;
-using FeedMapDAL.Repository.Abstract;
 using FeedMapDTO;
 using FeedMapBLL.Domain;
 using AutoMapper;
+using FeedMapBLL.Services.Abstract;
 
 namespace FeedMapWebApiApp.Controllers
 {
     [Route("api/[controller]")]
     public class FullFoodAndGeoDataController : Controller
     {
-        private ICompleteFoodDataRepository _repo;
+        private IFoodMarkerService _service;
+        private IMapper _mapper;
 
-        public FullFoodAndGeoDataController(RepositoryPayload repoPayload)
+        public FullFoodAndGeoDataController(IFoodMarkerService service,
+                                            IMapper mapper)
         {
-            _repo = repoPayload.GetCompleteFoodDataRepository();
+            _service = service;
+            _mapper = mapper;
         }
 
         // GET: api/FullFoodAndGeoData
@@ -31,10 +33,10 @@ namespace FeedMapWebApiApp.Controllers
         {
             List<FullFoodAndGeoDataClient> retLst = new List<FullFoodAndGeoDataClient>();
 
-            IEnumerable<CompleteFoodDataDTO> completeFoodDatasDto = _repo.GetCompleteFoodDatas();
-            foreach (CompleteFoodDataDTO completeFoodDataDto in completeFoodDatasDto)
+            var compeleteFoodDatas = _service.GetCompleteFoodData();
+            foreach (var foodData in compeleteFoodDatas)
             {
-                retLst.Add(Mapper.Map<FullFoodAndGeoDataClient>(completeFoodDataDto));    
+                retLst.Add(_mapper.Map<FullFoodAndGeoDataClient>(foodData));    
             }
             return retLst;
         }
@@ -43,8 +45,8 @@ namespace FeedMapWebApiApp.Controllers
         [HttpGet("{id}")]
         public FullFoodAndGeoDataClient Get(int id)
         {
-            CompleteFoodDataDTO completeFoodDataDto = _repo.GetCompleteFoodData(id);
-            return Mapper.Map<FullFoodAndGeoDataClient>(completeFoodDataDto);
+            return _mapper.Map<FullFoodAndGeoDataClient>(
+                _service.GetCompleteFoodDataById(id));
         }
     }
 }

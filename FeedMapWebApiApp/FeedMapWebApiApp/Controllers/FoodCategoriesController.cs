@@ -7,22 +7,24 @@ using FeedMapWebApiApp.Models;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
-using FeedMapDAL;
-using FeedMapDAL.Repository.Abstract;
 using FeedMapDTO;
 using FeedMapBLL.Domain;
 using AutoMapper;
+using FeedMapBLL.Services.Abstract;
 
 namespace FeedMapWebApiApp.Controllers
 {
     [Route("api/[controller]")]
     public class FoodCategoriesController : Controller
     {
-        private IFoodCategoryRepository _repo;
+        private IFoodCategoryService _service;
+        private IMapper _mapper;
 
-        public FoodCategoriesController(RepositoryPayload repoPayload)
+        public FoodCategoriesController(IFoodCategoryService service,
+                                        IMapper mapper)
         {
-            _repo = repoPayload.GetFoodCategoryRepository();
+            _service = service;
+            _mapper = mapper;
         }
 
 
@@ -32,11 +34,11 @@ namespace FeedMapWebApiApp.Controllers
         {
             List<FoodCategoryClient> retLst = new List<FoodCategoryClient>();
 
-            IEnumerable<FoodCategoryDTO> foodCategoriesDto = _repo.GetFoodCategories();
-            foreach (FoodCategoryDTO foodCategoryDto in foodCategoriesDto)
+            var categories = _service.GetFoodCategories();
+
+            foreach (var cat in categories)
             {
-                FoodCategory foodCategory = Mapper.Map<FoodCategory>(foodCategoryDto);
-                FoodCategoryClient foodCategoryRet = Mapper.Map<FoodCategoryClient>(foodCategory);
+                FoodCategoryClient foodCategoryRet = _mapper.Map<FoodCategoryClient>(cat);
                 retLst.Add(foodCategoryRet);
             }
 
@@ -47,9 +49,8 @@ namespace FeedMapWebApiApp.Controllers
         [HttpGet("{id}")]
         public FoodCategoryClient Get(int id)
         {
-            FoodCategoryDTO foodCategoryDto = _repo.GetFoodCategory(id);
-            FoodCategory foodCategory = Mapper.Map<FoodCategory>(foodCategoryDto);
-            return Mapper.Map<FoodCategoryClient>(foodCategory);
+            var category = _service.GetFoodCategory(id);
+            return _mapper.Map<FoodCategoryClient>(category);
         }
 
         // POST api/FoodCategories
@@ -61,11 +62,8 @@ namespace FeedMapWebApiApp.Controllers
                 BadRequest();
             }
 
-            FoodCategory foodCategory = Mapper.Map<FoodCategory>(reqObj);
-            FoodCategoryDTO foodCategoryDto = Mapper.Map<FoodCategoryDTO>(foodCategory);
-            int id = _repo.Post(foodCategoryDto);
-
-            return id;
+            FoodCategory foodCategory = _mapper.Map<FoodCategory>(reqObj);
+            return _service.PostFoodCategory(foodCategory);
         }
 
     }

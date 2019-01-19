@@ -3,7 +3,7 @@ using FeedMapBLL.Helpers;
 
 namespace FeedMapBLL.Domain
 {
-    public class FoodMarkerImage
+    public class FoodMarkerImageData
     {
         public int Id { get; set; }
         public int FoodMarkerId { get; set; }
@@ -11,7 +11,7 @@ namespace FeedMapBLL.Domain
         public int? ImageRank { get; set; }
         public string ClientFileName { get; set; }
 
-        public FoodMarkerImage(int _foodMarkerId, string _fileName)
+        public FoodMarkerImageData(int _foodMarkerId, string _fileName)
         {
             FoodMarkerId = _foodMarkerId;
             ImageFileNameConverter conv = new ImageFileNameConverter();

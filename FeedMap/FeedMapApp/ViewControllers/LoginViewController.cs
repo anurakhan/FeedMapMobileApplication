@@ -2,6 +2,9 @@ using Foundation;
 using System;
 using UIKit;
 using System.Text.RegularExpressions;
+using FeedMapApp.Services;
+using FeedMapApp.Models;
+using System.Threading.Tasks;
 
 namespace FeedMapApp
 {
@@ -28,10 +31,9 @@ namespace FeedMapApp
 
             TxtUserName.InputAccessoryView = TxtPassword.InputAccessoryView = toolbar;
 
-            var gestureRec = new UITapGestureRecognizer(() => {
-                if (IsValidUserNamePassword(TxtUserName, TxtPassword))
-                    LoginButtonPressed(TxtUserName, TxtPassword, LoginButton);
-                else
+            var gestureRec = new UITapGestureRecognizer(async () => {
+                if (!IsValidUserNamePassword(TxtUserName, TxtPassword)
+                    || !(await LoginButtonPressed(TxtUserName, TxtPassword, LoginButton)))
                     LoginButton.Image = UIImage.FromBundle("LogInButtonError");
             });
             LoginButton.UserInteractionEnabled = true;
@@ -44,16 +46,21 @@ namespace FeedMapApp
             LoginButton.Image = UIImage.FromBundle("LogInButton");
 		}
 
-		private void LoginButtonPressed(UITextField userNameField,
+		private async Task<bool> LoginButtonPressed(UITextField userNameField,
                                         UITextField passwordField,
                                         object sender)
         {
             //set current user procedure goes here
+            UserAuthService authService = new UserAuthService(new UserData(userNameField.Text,
+                                                                           passwordField.Text));
+            bool isSuccess = await authService.Login();
+            if (!isSuccess) return false;
 
             if (OnLoginSuccess != null)
             {
                 OnLoginSuccess(sender, new EventArgs());
             }
+            return true;
         }
 
         private bool IsValidUserNamePassword(UITextField userNameField,

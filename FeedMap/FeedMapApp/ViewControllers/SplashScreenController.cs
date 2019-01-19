@@ -1,5 +1,8 @@
+using FeedMapApp.Services;
+using FeedMapApp.Services.Navigation;
 using Foundation;
 using System;
+using System.Threading.Tasks;
 using UIKit;
 
 namespace FeedMapApp
@@ -17,29 +20,19 @@ namespace FeedMapApp
         {
         }
 
-		public override void ViewDidAppear(bool animated)
+		public override async void ViewDidAppear(bool animated)
 		{
             base.ViewDidAppear(animated);
 
+            var pingService = new TokenPingService();
+            IsAuthenticated = await pingService.IsValidToken();
+
+            LoginService loginService = new LoginService(_AppDelegate);
+
             if (!IsAuthenticated)
-            {
-                var loginViewController =
-                    _AppDelegate.GetViewController(_AppDelegate.MainStoryboard, "LoginViewController") as LoginViewController;
-                loginViewController.OnLoginSuccess += LoginViewController_OnLoginSuccess;
-                _AppDelegate.SetRootViewController(loginViewController, true);
-            }
+                loginService.UserEntryStart();
             else
-            {
-                var mapHomePageController = _AppDelegate.GetViewController(_AppDelegate.MainStoryboard, "MapHomePageController");
-                _AppDelegate.SetRootViewController(mapHomePageController, true);
-            }
+                loginService.LoginStart();
 		}
-
-        void LoginViewController_OnLoginSuccess(object sender, EventArgs e)
-        {
-            var mapHomePageController = _AppDelegate.GetViewController(_AppDelegate.MainStoryboard, "MapHomePageController");
-            _AppDelegate.SetRootViewController(mapHomePageController, true);
-
-        }
 	}
 }

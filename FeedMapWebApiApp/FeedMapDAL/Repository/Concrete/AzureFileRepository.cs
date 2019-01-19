@@ -21,20 +21,20 @@ namespace FeedMapDAL.Repository.Concrete
                                                            configuration["AzureStorageContainerReference:FeedMapReference"]);
         }
 
-        public async Task<string> GetFile(FoodMarkerImageDTO foodMarkerImageDto, Stream stream)
+        public async Task<string> GetFile(FoodMarkerImageDataDTO foodMarkerImageDto, Stream stream)
         {
             string storageFileName = foodMarkerImageDto.Id.ToString() + "_" + foodMarkerImageDto.FileName;
             string contentType = await _azureStorageHandler.GetFile(storageFileName, stream);
             return contentType;
         }
 
-        public string GetFileUrl(FoodMarkerImageDTO foodMarkerImageDto)
+        public string GetFileUrl(FoodMarkerImageDataDTO foodMarkerImageDto)
         {
             string storageFileName = foodMarkerImageDto.Id.ToString() + "_" + foodMarkerImageDto.FileName;
             return _azureStorageHandler.GetFileUrl(storageFileName);
         }
 
-        public async Task PostFile(FoodMarkerImageDTO foodMarkerImageDto, string contentType, Stream stream)
+        public async Task PostFile(FoodMarkerImageDataDTO foodMarkerImageDto, string contentType, Stream stream)
         {
 
             await _azureStorageHandler.UploadFile(foodMarkerImageDto.Id.ToString()

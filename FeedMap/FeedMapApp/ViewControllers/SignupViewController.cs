@@ -1,6 +1,9 @@
+using FeedMapApp.Models;
+using FeedMapApp.Services;
 using Foundation;
 using System;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using UIKit;
 
 namespace FeedMapApp
@@ -27,13 +30,14 @@ namespace FeedMapApp
                 TxtPasswordSignup.InputAccessoryView =
                     TxtPasswordConfirm.InputAccessoryView = toolbar;
 
-            var gestureRec = new UITapGestureRecognizer(() => {
-                if (IsValidUserNamePassword(TxtUserNameSignup,
+            var gestureRec = new UITapGestureRecognizer(async () => {
+                if (!IsValidUserNamePassword(TxtUserNameSignup,
                                             TxtPasswordSignup,
-                                            TxtPasswordConfirm))
-                    SignUpButtonPressed(TxtUserNameSignup, TxtPasswordSignup);
-                else
+                                            TxtPasswordConfirm) ||
+                    !(await SignUpButtonPressed(TxtUserNameSignup, TxtPasswordSignup)))
+                {
                     SignupButton.Image = UIImage.FromBundle("SignUpButtonError");
+                }
             });
             SignupButton.UserInteractionEnabled = true;
             SignupButton.AddGestureRecognizer(gestureRec);
@@ -58,11 +62,17 @@ namespace FeedMapApp
             return true;
         }
 
-        private void SignUpButtonPressed(UITextField userNameField,
+        private async Task<bool> SignUpButtonPressed(UITextField userNameField,
                                          UITextField passwordField)
         {
             //Creating User Procedure Goes here
+            UserAuthService authService = new UserAuthService(new UserData(userNameField.Text,
+                                                                           passwordField.Text));
+            bool isSuccess = await authService.SignUp();
+            if (!isSuccess) return false;
+
             DismissViewController(true, null);
+            return true;
         }
 
 		partial void CancelButtonSignup_TouchUpInside(UIButton sender)

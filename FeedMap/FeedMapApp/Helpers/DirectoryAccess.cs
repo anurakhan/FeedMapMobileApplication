@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using FeedMapApp.Helpers.DirectoryHelpers;
 
 namespace FeedMapApp.Models
 {
@@ -7,15 +8,9 @@ namespace FeedMapApp.Models
     {
         string m_DirPath;
 
-        public DirectoryAccess(bool temp, string dirPath = "")
+        public DirectoryAccess(IDirectory directory)
         {
-            m_DirPath = dirPath;
-            if (temp)
-            {
-                var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                var tmp = Path.Combine(documents, "..", "tmp");
-                m_DirPath = tmp;
-            }
+            m_DirPath = directory.GetDir();
         }
 
         public void UploadFile(byte[] buffer, string fileName, string additionalPath = "") 

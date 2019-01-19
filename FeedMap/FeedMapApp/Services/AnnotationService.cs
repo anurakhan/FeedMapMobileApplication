@@ -8,17 +8,23 @@ using Foundation;
 using MapKit;
 using UIKit;
 using System.Linq;
+using FeedMapApp.Helpers.DirectoryHelpers;
 
 namespace FeedMapApp.Services
 {
     public class AnnotationService
     {
         private string _annotationId = "FoodMarkerAnnotation";
+        private DirectoryAccess _directoryAccess;
+
+        public AnnotationService()
+        {
+            IDirectory directory = new TempDirectory();
+            _directoryAccess = new DirectoryAccess(directory);
+        }
 
         public FoodMarkerAnnotation LoadAnnotations(FoodMarker marker)
         {
-            RestService service = new RestService();
-
             FoodMarkerAnnotation annotation = new FoodMarkerAnnotation(marker);
 
             annotation.imgFileName = marker.FoodMarkerId.ToString();
@@ -39,13 +45,11 @@ namespace FeedMapApp.Services
             uiImage = uiImage.Scale(new CGSize(MapSettings.AnnotationSize.Width,
                                                MapSettings.AnnotationSize.Height));
 
-            DirectoryAccess dirAccessHelper = new DirectoryAccess(temp: true);
-
             using (NSData data = uiImage.AsPNG())
             {
                 byte[] buffer = new byte[data.Length];
                 System.Runtime.InteropServices.Marshal.Copy(data.Bytes, buffer, 0, Convert.ToInt32(data.Length));
-                dirAccessHelper.UploadFile(buffer, annotation.imgFileName);
+                _directoryAccess.UploadFile(buffer, annotation.imgFileName);
             }
 
             return annotation;
@@ -60,8 +64,7 @@ namespace FeedMapApp.Services
 
             UIImage img;
 
-            DirectoryAccess dirAccessHelper = new DirectoryAccess(temp: true);
-            byte[] buffer = dirAccessHelper.GetFile(((FoodMarkerAnnotation)annotation).imgFileName);
+            byte[] buffer = _directoryAccess.GetFile(((FoodMarkerAnnotation)annotation).imgFileName);
             using (NSData data = NSData.FromArray(buffer))
             {
                 img = UIImage.LoadFromData(data);

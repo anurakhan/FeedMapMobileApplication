@@ -5,11 +5,11 @@ namespace FeedMapDAL.Repository.Abstract
 {
     public interface IFoodMarkerImageRepository
     {
-        IEnumerable<FoodMarkerImageDTO> GetFoodMarkerImages();
-        FoodMarkerImageDTO GetFoodMarkerImage(int id);
-        IEnumerable<FoodMarkerImageDTO> GetFoodMarkerImageByFoodMarkerId(int id);
-        FoodMarkerImageDTO GetTopFoodMarkerImageByFoodMarkerId(int id);
-        int Post(FoodMarkerImageDTO foodMarkerImg);
-        void Update(FoodMarkerImageDTO foodMarkerImg, int id);
+        IEnumerable<FoodMarkerImageDataDTO> GetFoodMarkerImages();
+        FoodMarkerImageDataDTO GetFoodMarkerImage(int id);
+        IEnumerable<FoodMarkerImageDataDTO> GetFoodMarkerImageByFoodMarkerId(int id);
+        FoodMarkerImageDataDTO GetTopFoodMarkerImageByFoodMarkerId(int id);
+        int Post(FoodMarkerImageDataDTO foodMarkerImg);
+        void Update(FoodMarkerImageDataDTO foodMarkerImg, int id);
     }
 }

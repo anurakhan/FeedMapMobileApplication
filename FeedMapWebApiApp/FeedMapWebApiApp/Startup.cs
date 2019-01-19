@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using FeedMapDAL;
+using AutoMapper;
 
 namespace FeedMapWebApiApp
 {
@@ -24,8 +25,17 @@ namespace FeedMapWebApiApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-            services.AddTransient<RepositoryPayload>(provider => new RepositoryPayload(Configuration));
+            //Enable AutoMapper with AutoMapperCongif Obj for configuration.
+            var mapConfig = new AutoMapperConfig();
+
+            //Prepare DI Container.
+            DIConfig dIConfig = new DIConfig(Configuration, mapConfig);
+            dIConfig.ImplDI(services);
+
+            //Dependency Inject ClientAuthConfigObj that takes data from appsettings and 
+            //gets wraped by IOptions.
+            services.AddOptions();
+            services.Configure<ClientAuthConfigObj>(Configuration.GetSection("ClientKeyAuth"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,9 +45,6 @@ namespace FeedMapWebApiApp
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            var mapConfig = new AutoMapperConfig();
-            mapConfig.Initialize();
 
             app.UseMvc(routes =>
             {

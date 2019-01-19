@@ -20,6 +20,10 @@ using FeedMapDTO;
 
 namespace FeedMapWebApiApp.Controllers
 {
+    /// <summary>
+    /// This is Temporarily broken. Need to Replace this with Fontend Application
+    /// that will also consume the web api.
+    /// </summary>
     public class ManualUploadController : Controller
     {
         private string key = "FeedMapAccessWebApp1";
@@ -84,9 +88,9 @@ namespace FeedMapWebApiApp.Controllers
 
                 foreach (var file in Request.Form.Files)
                 {
-                    FoodMarkerImage postImageMeta = new FoodMarkerImage(foodMarkerId, file.FileName);
+                    FoodMarkerImageData postImageMeta = new FoodMarkerImageData(foodMarkerId, file.FileName);
 
-                    var postImageMetaDto = Mapper.Map<FoodMarkerImageDTO>(postImageMeta);
+                    var postImageMetaDto = Mapper.Map<FoodMarkerImageDataDTO>(postImageMeta);
 
                     postImageMeta.Id = postImageMetaDto.Id = _repoImageMeta.Post(postImageMetaDto);
 
