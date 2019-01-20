@@ -20,6 +20,7 @@ namespace FeedMapApp.Services
             IDirectory directory = new FoodMarkerImageDirectory();
             _marker = marker;
             _directoryAccess = new DirectoryAccess(directory);
+            _path = directory.GetDir();
         }
 
         public void UploadFoodMarkerPhotosToDir()
