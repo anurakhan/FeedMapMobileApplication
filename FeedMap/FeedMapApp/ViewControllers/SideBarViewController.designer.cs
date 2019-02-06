@@ -20,6 +20,10 @@ namespace FeedMapApp
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIImageView CameraButtonImg { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIImageView LogOutButtonImg { get; set; }
 
         void ReleaseDesignerOutlets ()
@@ -27,6 +31,11 @@ namespace FeedMapApp
             if (BackButtonImg != null) {
                 BackButtonImg.Dispose ();
                 BackButtonImg = null;
+            }
+
+            if (CameraButtonImg != null) {
+                CameraButtonImg.Dispose ();
+                CameraButtonImg = null;
             }
 
             if (LogOutButtonImg != null) {

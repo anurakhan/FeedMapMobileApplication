@@ -15,6 +15,7 @@ namespace FeedMapApp.Helpers.DirectoryHelpers
             string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             path = Path.Combine(path, "..", "tmp");
             path = Path.Combine(path, "feedmapphotos");
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
             return path;
         }
     }

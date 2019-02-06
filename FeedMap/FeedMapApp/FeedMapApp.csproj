@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Xamarin.Forms.2.4.0.280\build\netstandard1.0\Xamarin.Forms.props" Condition="Exists('..\packages\Xamarin.Forms.2.4.0.280\build\netstandard1.0\Xamarin.Forms.props')" />
+  <Import Project="..\packages\Xamarin.Forms.3.4.0.1029999\build\Xamarin.Forms.props" Condition="Exists('..\packages\Xamarin.Forms.3.4.0.1029999\build\Xamarin.Forms.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
@@ -19,7 +19,7 @@
     <DefineConstants>DEBUG;ENABLE_TEST_CLOUD;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Arlan Nurakhan (Y33NJV589K)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchFastDev>true</MtouchFastDev>
@@ -30,6 +30,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchFloat32>true</MtouchFloat32>
+    <CodesignProvision>VS: MixBox.FeedMap Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>pdbonly</DebugType>
@@ -37,13 +38,14 @@
     <OutputPath>bin\iPhone\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Arlan Nurakhan (Y33NJV589K)</CodesignKey>
     <MtouchFloat32>true</MtouchFloat32>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchArch>ARM64</MtouchArch>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
+    <CodesignProvision>VS: MixBox.FeedMap Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>pdbonly</DebugType>
@@ -51,12 +53,13 @@
     <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Arlan Nurakhan (Y33NJV589K)</CodesignKey>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchLink>None</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
+    <CodesignProvision>VS: MixBox.FeedMap Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -66,7 +69,7 @@
     <DefineConstants>DEBUG;ENABLE_TEST_CLOUD;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Arlan Nurakhan (Y33NJV589K)</CodesignKey>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <MtouchDebug>true</MtouchDebug>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
@@ -78,15 +81,13 @@
     <MtouchArch>ARM64</MtouchArch>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
     <PlatformTarget>x86</PlatformTarget>
+    <CodesignProvision>VS: MixBox.FeedMap Development</CodesignProvision>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\Xamarin.iOS10\System.Net.Http.Extensions.dll</HintPath>
     </Reference>
@@ -94,26 +95,26 @@
       <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\Xamarin.iOS10\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Xamarin.Forms.Core">
-      <HintPath>..\packages\Xamarin.Forms.2.4.0.280\lib\Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Forms.3.4.0.1029999\lib\Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Platform">
-      <HintPath>..\packages\Xamarin.Forms.2.4.0.280\lib\Xamarin.iOS10\Xamarin.Forms.Platform.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Forms.3.4.0.1029999\lib\Xamarin.iOS10\Xamarin.Forms.Platform.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Platform.iOS">
-      <HintPath>..\packages\Xamarin.Forms.2.4.0.280\lib\Xamarin.iOS10\Xamarin.Forms.Platform.iOS.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Forms.3.4.0.1029999\lib\Xamarin.iOS10\Xamarin.Forms.Platform.iOS.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Xaml">
-      <HintPath>..\packages\Xamarin.Forms.2.4.0.280\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Forms.3.4.0.1029999\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
     <Reference Include="Syncfusion.SfRating.iOS">
-      <HintPath>..\packages\Syncfusion.Xamarin.SfRating.16.1.0.37\lib\Xamarin.iOS10\Syncfusion.SfRating.iOS.dll</HintPath>
+      <HintPath>packages\Syncfusion.Xamarin.SfRating.16.1.0.37\lib\Xamarin.iOS10\Syncfusion.SfRating.iOS.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.SfRating.XForms">
-      <HintPath>..\packages\Syncfusion.Xamarin.SfRating.16.1.0.37\lib\Xamarin.iOS10\Syncfusion.SfRating.XForms.dll</HintPath>
-    </Reference>
-    <Reference Include="Syncfusion.SfRating.XForms.iOS">
-      <HintPath>..\packages\Syncfusion.Xamarin.SfRating.16.1.0.37\lib\Xamarin.iOS10\Syncfusion.SfRating.XForms.iOS.dll</HintPath>
+    <Reference Include="Xamarin.iOS.DGActivityIndicatorViewBinding">
+      <HintPath>..\packages\Xamarin.iOS.DGActivityIndicatorView.1.0.0\lib\Xamarin.iOS10\Xamarin.iOS.DGActivityIndicatorViewBinding.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +154,24 @@
     <ImageAsset Include="Assets.xcassets\LogOutButton.imageset\LogoutButton.png" />
     <ImageAsset Include="Assets.xcassets\Line.imageset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\Line.imageset\Line.png" />
+    <ImageAsset Include="Assets.xcassets\CameraButton.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\CameraButton.imageset\CameraButton.png" />
+    <ImageAsset Include="Assets.xcassets\CloseButton.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\CloseButton.imageset\ic_close.png" />
+    <ImageAsset Include="Assets.xcassets\AddButton.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\AddButton.imageset\AddButton.png" />
+    <ImageAsset Include="Assets.xcassets\GalleryButton.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\GalleryButton.imageset\GalleryButton.png" />
+    <ImageAsset Include="Assets.xcassets\CheckButton.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\CheckButton.imageset\CheckButton.png" />
+    <ImageAsset Include="Assets.xcassets\CheckButtonPressed.imageset\CheckButtonPressed.png" />
+    <ImageAsset Include="Assets.xcassets\CheckButtonPressed.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\ErrorScreen.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\ErrorScreen.imageset\ErrorView.png" />
+    <ImageAsset Include="Assets.xcassets\ValidationScreen.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\ValidationScreen.imageset\ValidationScreen.png" />
+    <ImageAsset Include="Assets.xcassets\TrashButton.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\TrashButton.imageset\TrashButton.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets.xcassets\AppLogo.imageset\" />
@@ -179,12 +198,23 @@
     <Folder Include="Services\Navigation\" />
     <Folder Include="Models\Abstract\" />
     <Folder Include="Helpers\DirectoryHelpers\" />
+    <Folder Include="Assets.xcassets\CameraButton.imageset\" />
+    <Folder Include="Views\PostFoodMarkerViews\" />
+    <Folder Include="Assets.xcassets\CloseButton.imageset\" />
+    <Folder Include="Assets.xcassets\AddButton.imageset\" />
+    <Folder Include="Assets.xcassets\GalleryButton.imageset\" />
+    <Folder Include="Assets.xcassets\CheckButton.imageset\" />
+    <Folder Include="Assets.xcassets\CheckButtonPressed.imageset\" />
+    <Folder Include="Assets.xcassets\ErrorScreen.imageset\" />
+    <Folder Include="Assets.xcassets\ValidationScreen.imageset\" />
+    <Folder Include="Assets.xcassets\TrashButton.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Storyboards\Main.storyboard" />
     <InterfaceDefinition Include="Storyboards\LaunchScreen.storyboard" />
     <InterfaceDefinition Include="Views\BottomSheetViews\BottomSheetViewController.xib" />
     <InterfaceDefinition Include="Views\SideBarViews\SideBarViewController.xib" />
+    <InterfaceDefinition Include="Views\PostFoodMarkerViews\PostFoodMarkerController.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -261,6 +291,31 @@
     <Compile Include="Helpers\DirectoryHelpers\IDirectory.cs" />
     <Compile Include="Helpers\DirectoryHelpers\TempDirectory.cs" />
     <Compile Include="Helpers\DirectoryHelpers\FoodMarkerImageDirectory.cs" />
+    <Compile Include="Views\PostFoodMarkerViews\PostFoodMarkerTextFieldView.cs" />
+    <Compile Include="Views\PostFoodMarkerViews\PostFoodMarkerTextFieldView.designer.cs">
+      <DependentUpon>PostFoodMarkerTextFieldView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\PostFoodMarkerController.cs" />
+    <Compile Include="ViewControllers\PostFoodMarkerController.designer.cs">
+      <DependentUpon>PostFoodMarkerController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PostFoodMarkerViews\PostFoodMarkerPickerView.cs" />
+    <Compile Include="Views\PostFoodMarkerViews\PostFoodMarkerPickerVIew.designer.cs">
+      <DependentUpon>PostFoodMarkerPickerView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PostFoodMarkerViews\PostFoodMarkerTextView.cs" />
+    <Compile Include="Views\PostFoodMarkerViews\PostFoodMarkerTextView.designer.cs">
+      <DependentUpon>PostFoodMarkerTextView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CategoryModel.cs" />
+    <Compile Include="Helpers\DirectoryHelpers\FoodMarkerPendingImageDirectory.cs" />
+    <Compile Include="Services\MediaPickerService.cs" />
+    <Compile Include="Models\FoodCategories.cs" />
+    <Compile Include="Services\ExternalRestService.cs" />
+    <Compile Include="Models\FoodMarkerValidator.cs" />
+    <Compile Include="Models\PostedFoodMarkerRetObj.cs" />
+    <Compile Include="Models\ClusterAnnotationView.cs" />
+    <Compile Include="Models\FoodMarkerAnnotationView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\PhotoIosLib\PhotoIosLib.csproj">
@@ -270,5 +325,5 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
-  <Import Project="..\packages\Xamarin.Forms.2.4.0.280\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.4.0.280\build\netstandard1.0\Xamarin.Forms.targets')" />
+  <Import Project="..\packages\Xamarin.Forms.3.4.0.1029999\build\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.3.4.0.1029999\build\Xamarin.Forms.targets')" />
 </Project>

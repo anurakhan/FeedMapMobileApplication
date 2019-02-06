@@ -11,6 +11,8 @@ namespace FeedMapWebApiApp
     {
         private readonly ClientAuthConfigObj _config;
         private TokenManagerSingleton _tokenManager;
+        private int _id = -1;
+
 
         public TokenAuthorizeFilter(IOptions<ClientAuthConfigObj> config,
                                     TokenManagerSingleton tokenManager)
@@ -33,6 +35,7 @@ namespace FeedMapWebApiApp
                 context.Result = new UnauthorizedResult();
             }
 
+            context.RouteData.Values.Add("UserId", _id);
         }
 
         private bool IsTokenAuth(IHeaderDictionary headerDictionary)
@@ -40,7 +43,7 @@ namespace FeedMapWebApiApp
             string token = headerDictionary[_config.Token];
             if (String.IsNullOrWhiteSpace(token)) return false;
 
-            return _tokenManager.HasTokenInPool(token);
+            return _tokenManager.HasTokenInPool(token, ref _id);
         }
 
     }

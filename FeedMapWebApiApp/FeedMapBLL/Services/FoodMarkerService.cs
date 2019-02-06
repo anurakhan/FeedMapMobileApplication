@@ -41,6 +41,18 @@ namespace FeedMapBLL.Services
             return _mapper.Map<FullFoodAndGeoData>(completeFoodDataDto);
         }
 
+        public IEnumerable<FullFoodAndGeoData> GetCompleteFoodDataByUserId(int id)
+        {
+            List<FullFoodAndGeoData> retLst = new List<FullFoodAndGeoData>();
+            IEnumerable<CompleteFoodDataDTO> completeFoodDatasDto = _completeFoodDataRepo.GetCompleteFoodDatasByUserId(id);
+            if (completeFoodDatasDto == null) return null;
+            foreach (CompleteFoodDataDTO completeFoodDataDto in completeFoodDatasDto)
+            {
+                retLst.Add(_mapper.Map<FullFoodAndGeoData>(completeFoodDataDto));
+            }
+            return retLst;
+        }
+
         public FoodMarker GetFoodMarker(int id)
         {
             FoodMarkerDTO foodMarkerDto = _repo.GetFoodMarker(id);
@@ -62,10 +74,24 @@ namespace FeedMapBLL.Services
 
         public int PostFoodMarker(FoodMarker foodMarker)
         {
-            FoodMarkerDTO foodMarkerDTO = Mapper.Map<FoodMarkerDTO>(foodMarker);
+            FoodMarkerDTO foodMarkerDTO = _mapper.Map<FoodMarkerDTO>(foodMarker);
             int id = _repo.Post(foodMarkerDTO);
             return id;
         }
 
+        public int PostFullFoodAndGeoData(FullFoodAndGeoData fullFoodAndGeoData, User user)
+        {
+            CompleteFoodDataDTO completeFoodDataDTO =
+                _mapper.Map<CompleteFoodDataDTO>(fullFoodAndGeoData);
+            UserDTO userDTO = _mapper.Map<UserDTO>(user);
+            int id = _completeFoodDataRepo.Post(completeFoodDataDTO, userDTO);
+            return id;
+        }
+
+
+        public void DeleteFoodMarker(int id)
+        {
+            _repo.Delete(id);
+        }
     }
 }

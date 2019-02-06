@@ -123,6 +123,7 @@ namespace FeedMapDAL.Repository.Concrete
                     cmd.Parameters.Add(m_DataAccess.BuildSqlParam("@fmid", SqlDbType.Int, foodMarkerImg.FoodMarkerId));
                     cmd.Parameters.Add(m_DataAccess.BuildSqlParam("@filename", SqlDbType.VarChar, foodMarkerImg.FileName));
                     cmd.Parameters.Add(m_DataAccess.BuildSqlParam("@clientfilename", SqlDbType.VarChar, foodMarkerImg.ClientFileName));
+                    cmd.Parameters.Add(m_DataAccess.BuildSqlParam("@rankId", SqlDbType.Int, foodMarkerImg.ImageRank));
                     cmd.Parameters.Add("@id", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                     cmd.ExecuteNonQuery();
@@ -134,6 +135,18 @@ namespace FeedMapDAL.Repository.Concrete
         public void Update(FoodMarkerImageDataDTO foodMarkerImg, int id)
         {
             throw new NotImplementedException();
+        }
+
+        public void DeleteByFoodMarker(int id)
+        {
+            List<SqlParameter> sqlParams = new List<SqlParameter>();
+            sqlParams.Add("@id", SqlDbType.Int, (object)id);
+
+            string sql = " DELETE ";
+            sql += " FROM FoodMarkerPhotos ";
+            sql += " WHERE FMP_FM_ID = @id ";
+
+            m_DataAccess.ExecuteNonQuery(sql, sqlParams);
         }
     }
 }

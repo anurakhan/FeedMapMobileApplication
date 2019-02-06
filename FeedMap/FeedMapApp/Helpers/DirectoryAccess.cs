@@ -26,5 +26,16 @@ namespace FeedMapApp.Models
             path = Path.Combine(path, fileName);
             return File.ReadAllBytes(path);
         }
+
+        public void ClearFolder(string additionalPath = "")
+        {
+            var path = Path.Combine(m_DirPath, additionalPath);
+
+            DirectoryInfo di = new DirectoryInfo(path);
+            foreach (FileInfo file in di.GetFiles())
+            {
+                file.Delete();
+            }
+        }
     }
 }

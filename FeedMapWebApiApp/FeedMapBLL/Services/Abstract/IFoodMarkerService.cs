@@ -15,5 +15,11 @@ namespace FeedMapBLL.Services.Abstract
         IEnumerable<FullFoodAndGeoData> GetCompleteFoodData();
 
         FullFoodAndGeoData GetCompleteFoodDataById(int id);
+
+        int PostFullFoodAndGeoData(FullFoodAndGeoData fullFoodAndGeoData, User user);
+
+        IEnumerable<FullFoodAndGeoData> GetCompleteFoodDataByUserId(int id);
+
+        void DeleteFoodMarker(int id);
     }
 }

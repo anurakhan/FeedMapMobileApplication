@@ -38,7 +38,7 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="Cirrious.FluentLayouts.Touch">
-      <HintPath>..\packages\Cirrious.FluentLayout.2.5.0\lib\Xamarin.iOS10\Cirrious.FluentLayouts.Touch.dll</HintPath>
+      <HintPath>..\FeedMap\packages\Cirrious.FluentLayout.2.9.0\lib\Xamarin.iOS10\Cirrious.FluentLayouts.Touch.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -66,9 +66,6 @@
     <Compile Include="UiKitExtensions.cs" />
     <Compile Include="VideoView.cs" />
     <Compile Include="MediaType.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\ic_check.png" />
@@ -180,6 +177,9 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\ic_add%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

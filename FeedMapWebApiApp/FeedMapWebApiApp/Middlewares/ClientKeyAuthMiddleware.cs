@@ -64,7 +64,8 @@ namespace FeedMapWebApiApp
             string token = headerDictionary[_config.Token];
             if (String.IsNullOrWhiteSpace(token)) return false;
 
-            return _tokenManager.HasTokenInPool(token);
+            int id = -1;
+            return _tokenManager.HasTokenInPool(token, ref id);
         }
 
         private bool IsSame(string key, 

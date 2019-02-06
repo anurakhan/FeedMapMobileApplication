@@ -12,5 +12,7 @@ namespace FeedMapDAL.Repository.Abstract
         Task PostFile(FoodMarkerImageDataDTO foodMarkerImageDto, string contentType, Stream stream);
 
         string GetFileUrl(FoodMarkerImageDataDTO foodMarkerImageDto);
+
+        Task DeleteFile(FoodMarkerImageDataDTO foodMarkerImageDataDto);
     }
 }

@@ -14,7 +14,6 @@ namespace FeedMapApp.Services
 {
     public class AnnotationService
     {
-        private string _annotationId = "FoodMarkerAnnotation";
         private DirectoryAccess _directoryAccess;
 
         public AnnotationService()
@@ -30,17 +29,23 @@ namespace FeedMapApp.Services
             annotation.imgFileName = marker.FoodMarkerId.ToString();
 
             UIImage uiImage;
-
-            var iconImage = marker.FoodMarkerPhotos.Where(p => p.ImageRank == 1).First();
-
-            using (var url = new NSUrl(iconImage.ImageUrl))
+            if (marker.FoodMarkerPhotos != null
+                && marker.FoodMarkerPhotos.Where(p => p.ImageRank == 1).Any())
             {
-                using (var data = NSData.FromUrl(url))
-                {
-                    uiImage = UIImage.LoadFromData(data);
-                }
+                var iconImage = marker.FoodMarkerPhotos.Where(p => p.ImageRank == 1).First();
 
-            }
+                using (var url = new NSUrl(iconImage.ImageUrl))
+                {
+                    using (var data = NSData.FromUrl(url))
+                    {
+                        if (data != null)
+                            uiImage = UIImage.LoadFromData(data);
+                        else
+                            uiImage = UIImage.FromBundle("DataBox");
+                    }
+
+                }
+            } else uiImage = UIImage.FromBundle("DataBox");
 
             uiImage = uiImage.Scale(new CGSize(MapSettings.AnnotationSize.Width,
                                                MapSettings.AnnotationSize.Height));
@@ -57,23 +62,30 @@ namespace FeedMapApp.Services
 
         public MKAnnotationView GetAnnotationView(MKMapView mapView, IMKAnnotation annotation)
         {
-            MKAnnotationView annotationView = mapView.DequeueReusableAnnotation(_annotationId);
+            FoodMarkerAnnotation marker = annotation as FoodMarkerAnnotation;
 
-            if (annotationView == null)
-                annotationView = new MKAnnotationView(annotation, _annotationId);
-
-            UIImage img;
-
-            byte[] buffer = _directoryAccess.GetFile(((FoodMarkerAnnotation)annotation).imgFileName);
-            using (NSData data = NSData.FromArray(buffer))
+            var view = mapView.DequeueReusableAnnotation(MKMapViewDefault.AnnotationViewReuseIdentifier) as FoodMarkerAnnotationView;
+            if (view == null)
             {
-                img = UIImage.LoadFromData(data);
+                view = new FoodMarkerAnnotationView(marker,
+                                                    MKMapViewDefault.AnnotationViewReuseIdentifier);
             }
-            annotationView.Image = img;
-            annotationView.Layer.CornerRadius = MapSettings.AnnotationViewCornerRadius;
-            annotationView.Layer.MasksToBounds = MapSettings.AnnotationViewMasksToBound;
+            view.GenView(marker, _directoryAccess);
 
-            return annotationView;
+            return view;
         }
+
+        public MKAnnotationView GetClusterAnnotationView(MKMapView mapView, IMKAnnotation annotation)
+        {
+            var cluster = annotation as MKClusterAnnotation;
+
+            var view = mapView.DequeueReusableAnnotation(MKMapViewDefault.ClusterAnnotationViewReuseIdentifier) as ClusterAnnotationView;
+            if (view == null)
+            {
+                view = new ClusterAnnotationView(cluster, MKMapViewDefault.ClusterAnnotationViewReuseIdentifier);
+            }
+            return view;
+        }
+
     }
 }

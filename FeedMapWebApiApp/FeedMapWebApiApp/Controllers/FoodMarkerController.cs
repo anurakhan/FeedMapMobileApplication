@@ -64,5 +64,10 @@ namespace FeedMapWebApiApp.Controllers
             return _service.PostFoodMarker(foodMarker);
         }
 
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            _service.DeleteFoodMarker(id);
+        }
     }
 }

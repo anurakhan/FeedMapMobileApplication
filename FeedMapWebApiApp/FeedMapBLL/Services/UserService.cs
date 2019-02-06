@@ -60,7 +60,14 @@ namespace FeedMapBLL.Services
 
             _user.GenPasswordHash(userFromRepo.PasswordSalt,
                                   _hashBytesNum);
-            return _user.DatawiseEquals(userFromRepo);
+            bool isEqual = _user.DatawiseEquals(userFromRepo);
+
+            if (isEqual)
+            {
+                _user.Id = userFromRepo.Id;
+                return true;
+            }
+            return false;
         }
     }
 }

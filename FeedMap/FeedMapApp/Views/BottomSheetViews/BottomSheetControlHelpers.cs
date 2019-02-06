@@ -9,14 +9,10 @@ namespace FeedMapApp.Views.BottomSheetViews
     {
         public static readonly double Width = 270;
 
-        public static class CIColors
-        {
-            public static readonly CIColor Black = CIColor.FromRgb(0.14f, 0.14f, 0.14f);
-            public static readonly CIColor Gray = CIColor.FromRgb(0.28f, 0.28f, 0.28f);
-        }
-
         public static class UIColors
         {
+            public static readonly UIColor Black = UIColor.FromRGB(0.14f, 0.14f, 0.14f);
+            public static readonly UIColor Gray = UIColor.FromRGB(0.28f, 0.28f, 0.28f);
             public static readonly UIColor Pink = UIColor.FromRGB(252, 183, 254);
             public static readonly UIColor Brown = UIColor.FromRGB(255, 229, 204);
             public static readonly UIColor Yellow = UIColor.FromRGB(255, 255, 204);

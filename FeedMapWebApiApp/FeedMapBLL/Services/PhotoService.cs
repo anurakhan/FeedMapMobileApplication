@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using FeedMapBLL.Domain;
 using FeedMapBLL.Services.Abstract;
@@ -38,6 +40,7 @@ namespace FeedMapBLL.Services
                 lstFoodMarkerImageData.Add(
                     new FoodMarkerPhoto
                     {
+                        ImageId = imageMeta.Id,
                         ImageUrl = _repoImageFile.GetFileUrl(imageMeta),
                         ImageRank = (imageMeta.ImageRank.HasValue ?
                                  imageMeta.ImageRank.Value : 2)
@@ -59,5 +62,32 @@ namespace FeedMapBLL.Services
                                  imageMeta.ImageRank.Value : 2)
             };
         }
+
+        public async Task<FoodMarkerPhoto> PostPhotoById(FoodMarkerImageData foodMarkerImageData, 
+                                  string contentType, Stream stream)
+        {
+            var postImageMetaDto = _mapper.Map<FoodMarkerImageDataDTO>(foodMarkerImageData);
+            foodMarkerImageData.Id = postImageMetaDto.Id = _repoImageMeta.Post(postImageMetaDto);
+
+            await _repoImageFile.PostFile(postImageMetaDto, contentType, stream);
+            return new FoodMarkerPhoto
+            {
+                ImageUrl = _repoImageFile.GetFileUrl(postImageMetaDto),
+                ImageRank = (foodMarkerImageData.ImageRank.HasValue ?
+                             foodMarkerImageData.ImageRank.Value : 2)
+            };
+        }
+
+        public async Task DeletePhotosByFoodMarkerId(int id)
+        {
+            var imageMetas = _repoImageMeta.GetFoodMarkerImageByFoodMarkerId(id);
+            _repoImageMeta.DeleteByFoodMarker(id);
+
+            foreach (var imageMeta in imageMetas)
+            {
+                await _repoImageFile.DeleteFile(imageMeta);   
+            }
+        }
+
     }
 }

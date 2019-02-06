@@ -10,5 +10,6 @@ namespace FeedMapDAL.Repository.Abstract
         FoodMarkerDTO GetFoodMarker(int id);
         int Post(FoodMarkerDTO foodMarker);
         void Update(FoodMarkerDTO foodMarker, int id);
+        void Delete(int id);
     }
 }

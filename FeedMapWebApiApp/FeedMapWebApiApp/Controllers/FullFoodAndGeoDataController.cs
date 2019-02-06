@@ -33,10 +33,15 @@ namespace FeedMapWebApiApp.Controllers
         {
             List<FullFoodAndGeoDataClient> retLst = new List<FullFoodAndGeoDataClient>();
 
-            var compeleteFoodDatas = _service.GetCompleteFoodData();
-            foreach (var foodData in compeleteFoodDatas)
+            int id = (int)RouteData.Values["UserId"];
+
+            var compeleteFoodDatas = _service.GetCompleteFoodDataByUserId(id);
+            if (compeleteFoodDatas != null)
             {
-                retLst.Add(_mapper.Map<FullFoodAndGeoDataClient>(foodData));    
+                foreach (var foodData in compeleteFoodDatas)
+                {
+                    retLst.Add(_mapper.Map<FullFoodAndGeoDataClient>(foodData));
+                }
             }
             return retLst;
         }
@@ -45,8 +50,23 @@ namespace FeedMapWebApiApp.Controllers
         [HttpGet("{id}")]
         public FullFoodAndGeoDataClient Get(int id)
         {
-            return _mapper.Map<FullFoodAndGeoDataClient>(
+            return _mapper.Map<FullFoodAndGeoDataClient>( 
                 _service.GetCompleteFoodDataById(id));
+        }
+
+        [HttpPost]
+        public PostedFoodMarkerRetObj Post([FromBody]FullFoodAndGeoDataClient reqObj)
+        {
+            if (reqObj == null)
+            {
+                BadRequest();
+            }
+
+            int id = (int)RouteData.Values["UserId"];
+            User user = new User(){Id = id};
+
+            FullFoodAndGeoData model = _mapper.Map<FullFoodAndGeoData>(reqObj);
+            return new PostedFoodMarkerRetObj { Id = _service.PostFullFoodAndGeoData(model, user) };
         }
     }
 }

@@ -12,6 +12,7 @@ using FeedMapApp.Helpers;
 using FeedMapApp.Services;
 using FeedMapApp.Services.Navigation;
 using Chafu;
+using CoreFoundation;
 
 namespace FeedMapApp
 {
@@ -21,10 +22,13 @@ namespace FeedMapApp
         MKMapView MapView;
         private BottomSheetViewController BottomSheetVC { get; set; }
         private SideBarViewController SideBarVC { get; set; }
+        private Dictionary<int, IMKAnnotation> _foodMarkerAnnotationDict;
         CLLocationManager LocationManager;
+
         public MapHomePageController(IntPtr handle) : base(handle)
         {
             LocationManager = new CLLocationManager();
+            _foodMarkerAnnotationDict = new Dictionary<int, IMKAnnotation>();
         }
 
         public override async void ViewDidLoad()
@@ -47,7 +51,6 @@ namespace FeedMapApp
         private void InitMap()
         {
             MapView = new MKMapView(View.Bounds);
-
             MapView.AutoresizingMask = UIViewAutoresizing.FlexibleDimensions;
             MapView.ShowsUserLocation = true;
             LocationManager.RequestWhenInUseAuthorization();
@@ -55,13 +58,30 @@ namespace FeedMapApp
             View.AddSubview(MapView);
 
             View.SendSubviewToBack(MapView);
-            MapView.Delegate = new MapDelegate(BottomSheetVC);
+            var mapDel = new MapDelegate();
+            mapDel.FoodMarkerSelected += OnFoodMarkerSelected;
+            MapView.Delegate = mapDel;
+            MapView.UserLocation.Title = "";
+            RegisterToMapView();
         }
+
+        private void RegisterToMapView()
+        {
+            MapView.Register(typeof(FoodMarkerAnnotationView), MKMapViewDefault.AnnotationViewReuseIdentifier);
+            MapView.Register(typeof(ClusterAnnotationView), MKMapViewDefault.ClusterAnnotationViewReuseIdentifier);
+        }
+
+        private void OnFoodMarkerSelected(object sender, EventArgs e)
+        {
+            var annotation = (FoodMarkerAnnotation)sender;
+            BottomSheetVC.PopulateBottomSheetWithFoodMarkerData(annotation.MarkerInfo);
+        }
+
 
         private async Task AppendToFoodMarkerAnnotations()
         {
             FoodMarkerService foodMarkerService = new FoodMarkerService();
-            foodMarkerService.OnFail += OnLogout;
+            foodMarkerService.OnFail += OnLogout;   
 
 
             IEnumerable<FoodMarker> foodMarkers = await foodMarkerService.GetAllFoodMarkerPositions();
@@ -73,6 +93,7 @@ namespace FeedMapApp
                 marker.FoodMarkerPhotos = imageMetas;
                 FoodMarkerAnnotation annotation = annotationService.LoadAnnotations(marker);
                 MapView.AddAnnotation(annotation);
+                _foodMarkerAnnotationDict.Add(marker.FoodMarkerId, annotation);
             }
         }
 
@@ -86,6 +107,8 @@ namespace FeedMapApp
         private void AddSideBarView()
         {
             var sideBarVC = new SideBarViewController();
+
+            sideBarVC.OnFoodMarkerCreationSuccess = NewFoodMarkerOnLoad;
 
             this.AddChildViewController(sideBarVC);
             this.View.InsertSubviewAbove(sideBarVC.View, HomeButton);
@@ -110,7 +133,44 @@ namespace FeedMapApp
             var bottomSheetVCWidth = View.Frame.Width;
             bottomSheetVC.View.Frame = new CGRect(0, View.Frame.GetMaxY(), bottomSheetVCWidth, bottomSheetVCHeight);
 
+            bottomSheetVC.AddOnDeleteEventHandler(new Func<int, Task>(FoodMarkerOnDelete));
+
             BottomSheetVC = bottomSheetVC;
+        }
+
+        private async Task FoodMarkerOnDelete(int foodMarkerId)
+        {
+            BottomSheetVC.HideBottomSheet(View.Frame.GetMaxY());
+
+            FoodMarkerService foodMarkerService = new FoodMarkerService();
+            bool isSuccess = await foodMarkerService.DeleteFoodMarker(foodMarkerId);
+
+            if (!isSuccess)
+            {
+                UIImageView errorView = new UIImageView();
+                errorView.Image = UIImage.FromBundle("ErrorScreen");
+                double side = (View.Frame.Width * 2.0 / 3.0);
+                errorView.Frame = new CoreGraphics.CGRect(0, 0, side, side);
+                errorView.Center = View.Center;
+                View.AddSubview(errorView);
+                View.BringSubviewToFront(errorView);
+                NSTimer.CreateScheduledTimer(3.0, delegate
+                {
+                    errorView.RemoveFromSuperview();
+                });
+                return;
+            }
+            if (_foodMarkerAnnotationDict.ContainsKey(foodMarkerId))
+                MapView.RemoveAnnotation(_foodMarkerAnnotationDict[foodMarkerId]);
+        }
+
+        private void NewFoodMarkerOnLoad(object sender, EventArgs e)
+        {
+            FoodMarker newMarker = (FoodMarker)sender;
+            AnnotationService annotationService = new AnnotationService();
+            FoodMarkerAnnotation annotation = annotationService.LoadAnnotations(newMarker);
+            _foodMarkerAnnotationDict.Add(newMarker.FoodMarkerId, annotation);
+            MapView.AddAnnotation(annotation);
         }
 
         private void AddTapGestureToHomeButton()
@@ -137,19 +197,12 @@ namespace FeedMapApp
 
         class MapDelegate : MKMapViewDelegate
         {
-            private BottomSheetViewController m_BottomSheet;
+            public event EventHandler FoodMarkerSelected;
             private bool m_HasZoomedToUser = false;
-
-            public MapDelegate(BottomSheetViewController bottomSheet)
-            {
-                m_BottomSheet = bottomSheet;
-            }
-
 
             public override MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
             {
                 MKAnnotationView annotationView = null;
-
                 if (annotation is MKUserLocation)
                     return null;
 
@@ -157,6 +210,17 @@ namespace FeedMapApp
                 {
                     AnnotationService service = new AnnotationService();
                     annotationView = service.GetAnnotationView(mapView, annotation);
+                } 
+                else if (annotation is MKClusterAnnotation)
+                {
+                    AnnotationService service = new AnnotationService();
+                    annotationView = service.GetClusterAnnotationView(mapView, annotation);
+                }
+                else if (annotation != null)
+                {
+                    var unwrappedAnnotation = MKAnnotationWrapperExtensions.UnwrapClusterAnnotation(annotation);
+
+                    return GetViewForAnnotation(mapView, unwrappedAnnotation);
                 }
 
                 return annotationView;
@@ -179,7 +243,17 @@ namespace FeedMapApp
                 if (view.Annotation is FoodMarkerAnnotation)
                 {
                     var annotation = (FoodMarkerAnnotation)view.Annotation;
-                    m_BottomSheet.PopulateBottomSheetWithFoodMarkerData(annotation.MarkerInfo);
+                    //might be causing issues.
+                    FoodMarkerSelected((object)annotation, new EventArgs());
+                }
+            }
+
+            private static class MKAnnotationWrapperExtensions
+            {
+                public static MKClusterAnnotation UnwrapClusterAnnotation(IMKAnnotation annotation)
+                {
+                    if (annotation == null) return null;
+                    return ObjCRuntime.Runtime.GetNSObject(annotation.Handle) as MKClusterAnnotation;
                 }
             }
         }

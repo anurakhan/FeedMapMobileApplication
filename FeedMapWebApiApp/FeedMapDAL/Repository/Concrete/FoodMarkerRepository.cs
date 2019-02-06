@@ -96,5 +96,17 @@ namespace FeedMapDAL.Repository.Concrete
         {
             throw new NotImplementedException();
         }
+
+        public void Delete(int id)
+        {
+            List<SqlParameter> sqlParams = new List<SqlParameter>();
+            sqlParams.Add("@id", SqlDbType.Int, (object)id);
+
+            string sql = " DELETE ";
+            sql += " FROM FoodMarker ";
+            sql += " WHERE FM_ID = @id ";
+
+            m_DataAccess.ExecuteNonQuery(sql, sqlParams);
+        }
     }
 }

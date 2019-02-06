@@ -9,6 +9,7 @@ using Syncfusion.SfRating.iOS;
 using FeedMapApp.Views.BottomSheetViews;
 using System.Collections.Generic;
 using FeedMapApp.Services;
+using System.Threading.Tasks;
 
 namespace FeedMapApp
 {
@@ -108,6 +109,16 @@ namespace FeedMapApp
             containerView.Init();
             _containerList.Add(containerView);
 
+            containerView = new BottomSheetDeleteContainerView(containerView);
+            containerView.Init();
+            _containerList.Add(containerView);
+        }
+
+        public void AddOnDeleteEventHandler(Func<int, Task> onFoodMarkerDelete)
+        {
+            foreach (var containerView in _containerList)
+                if (containerView is BottomSheetDeleteContainerView)
+                    ((BottomSheetDeleteContainerView)containerView).OnDelete += onFoodMarkerDelete;
         }
 
         /// <summary>
@@ -187,6 +198,17 @@ namespace FeedMapApp
                     View.Frame = new CGRect(0, sheetY, frame.Width, frame.Height);
                 });
             }
+        }
+
+        public void HideBottomSheet(nfloat maxY)
+        {
+            MoveSheetToBound(1);
+
+            UIView.Animate(1, () =>
+            {
+                var frame = View.Frame;
+                View.Frame = new CGRect(0, maxY, frame.Width, frame.Height);
+            });
         }
 
         private void SetUI()

@@ -10,6 +10,7 @@ using Foundation;
 using Chafu;
 using System.IO;
 using FeedMapApp.Helpers.DirectoryHelpers;
+using System.Threading.Tasks;
 
 namespace FeedMapApp.Views.BottomSheetViews
 {
@@ -67,7 +68,7 @@ namespace FeedMapApp.Views.BottomSheetViews
         public void Load(FoodMarker marker)
         {
             _fromText.Text = "from";
-            _fromText.TextColor = new UIColor(ControlProps.CIColors.Black);
+            _fromText.TextColor = ControlProps.UIColors.Black;
             _fromText.Font = UIFont.FromName("Helvetica-BoldOblique", 12f);
             _fromText.TextAlignment = UITextAlignment.Center;
             _fromText.LineBreakMode = UILineBreakMode.WordWrap;
@@ -114,7 +115,7 @@ namespace FeedMapApp.Views.BottomSheetViews
         public void Load(FoodMarker marker)
         {
             _restaurantName.Text = marker.RestaurantName;
-            _restaurantName.TextColor = new UIColor(ControlProps.CIColors.Black);
+            _restaurantName.TextColor = ControlProps.UIColors.Black;
             _restaurantName.Font = UIFont.FromName("Menlo-BoldItalic", 16f);
             _restaurantName.TextAlignment = UITextAlignment.Center;
             _restaurantName.LineBreakMode = UILineBreakMode.WordWrap;
@@ -208,7 +209,7 @@ namespace FeedMapApp.Views.BottomSheetViews
         public void Load(FoodMarker marker)
         {
             _categoryName.Text = marker.CategoryName;
-            _categoryName.TextColor = new UIColor(ControlProps.CIColors.Gray);
+            _categoryName.TextColor = ControlProps.UIColors.Gray;
             _categoryName.Font = UIFont.FromName("Helvetica", 14f);
             _categoryName.TextAlignment = UITextAlignment.Center;
             _categoryName.LineBreakMode = UILineBreakMode.WordWrap;
@@ -217,7 +218,7 @@ namespace FeedMapApp.Views.BottomSheetViews
             LabelSizeCalculator.SetCenterAndHeightBasedOnText(ContainingView, _categoryName);
 
             _restaurantAddress.Text = marker.RestaurantAddress;
-            _restaurantAddress.TextColor = new UIColor(ControlProps.CIColors.Gray);
+            _restaurantAddress.TextColor = ControlProps.UIColors.Gray;
             _restaurantAddress.Font = UIFont.FromName("Helvetica", 14f);
             _restaurantAddress.TextAlignment = UITextAlignment.Center;
             _restaurantAddress.LineBreakMode = UILineBreakMode.WordWrap;
@@ -260,7 +261,7 @@ namespace FeedMapApp.Views.BottomSheetViews
         public void Load(FoodMarker marker)
         {
             _comment.Text = marker.Comment;
-            _comment.TextColor = new UIColor(ControlProps.CIColors.Black);
+            _comment.TextColor = ControlProps.UIColors.Black;
             _comment.Font = UIFont.PreferredBody;
             _comment.TextAlignment = UITextAlignment.Center;
             _comment.LineBreakMode = UILineBreakMode.WordWrap;
@@ -304,8 +305,10 @@ namespace FeedMapApp.Views.BottomSheetViews
 
         public void Load(FoodMarker marker)
         {
-            var imageMeta = marker.FoodMarkerPhotos.Where(p => p.ImageRank == 2).First();
             nfloat imageHeight = 130;
+            var imageMeta = marker.FoodMarkerPhotos.Where(p => p.ImageRank == 1).First();
+            if (marker.FoodMarkerPhotos.Where(p => p.ImageRank == 2).Any())
+                imageMeta = marker.FoodMarkerPhotos.Where(p => p.ImageRank == 2).First();
 
             UIImage uiImage;
             using (var url = new NSUrl(imageMeta.ImageUrl))
@@ -316,6 +319,8 @@ namespace FeedMapApp.Views.BottomSheetViews
                 }
 
             }
+            _image.Image = uiImage;
+
             _image.Frame = new CGRect(
                 0,
                 5f,
@@ -323,7 +328,6 @@ namespace FeedMapApp.Views.BottomSheetViews
                 imageHeight
             );
             _image.ContentMode = UIViewContentMode.ScaleAspectFill;
-            _image.Image = uiImage;
             _image.Center = new CGPoint(ContainingView.Center.X, _image.Center.Y);
             _image.ClipsToBounds = true;
             _image.Layer.CornerRadius = 15f;
@@ -333,8 +337,10 @@ namespace FeedMapApp.Views.BottomSheetViews
             var gallery = new AlbumViewController()
             {
                 LazyDataSource = (view, size, mediaTypes) =>
-                    new LocalFilesDataSource(view, size, mediaTypes) { 
-                    ImagesPath = (new FoodMarkerImageDirectory()).GetDir() },
+                    new LocalFilesDataSource(view, size, mediaTypes)
+                    {
+                        ImagesPath = (new FoodMarkerImageDirectory()).GetDir()
+                    },
                 LazyDelegate = (view, source) => new LocalFilesDelegate(view, (LocalFilesDataSource)source)
             };
 
@@ -354,4 +360,58 @@ namespace FeedMapApp.Views.BottomSheetViews
             );
         }
     }
+
+    public class BottomSheetDeleteContainerView : IBottomSheetContainerView
+    {
+        private IBottomSheetContainerView _parentContainer;
+        private UIImageView _image;
+
+        public UIView ContainingView { get; set; }
+        public UIView View { get; set; }
+        public event Func<int, Task> OnDelete;
+
+        public BottomSheetDeleteContainerView(IBottomSheetContainerView parentContainter)
+        {
+            _parentContainer = parentContainter;
+            ContainingView = _parentContainer.ContainingView;
+        }
+
+        public void Init()
+        {
+            View = new UIView();
+            _image = new UIImageView();
+            View.AddSubview(_image);
+            ContainingView.AddSubview(View);
+        }
+
+        public void Load(FoodMarker marker)
+        {
+            _image.Image = UIImage.FromBundle("TrashButton");
+            var gestureRec = new UITapGestureRecognizer(async () =>
+            {
+                if (OnDelete != null)
+                    await OnDelete(marker.FoodMarkerId);
+            });
+            gestureRec.CancelsTouchesInView = false;
+            _image.AddGestureRecognizer(gestureRec);
+            _image.UserInteractionEnabled = true;
+
+            _image.Frame = new CGRect(
+                0,
+                15f,
+                40f,
+                40f
+            );
+
+            _image.Center = new CGPoint(ContainingView.Center.X, _image.Center.Y);
+
+            View.Frame = new CGRect(
+                0,
+                _parentContainer.View.Frame.GetMaxY(),
+                ContainingView.Frame.Width,
+                60f
+            );
+        }
+    }
 }
+

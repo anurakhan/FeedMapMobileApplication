@@ -64,6 +64,7 @@ namespace FeedMapWebApiApp.Controllers
                 lstFoodMarkerImageData.Add(
                     new FoodMarkerPhotoClient
                     {
+                        ImageId = photo.ImageId,
                         ImageUrl = WebUtility.UrlEncode(photo.ImageUrl),
                         ImageRank = photo.ImageRank
                     });
@@ -72,6 +73,36 @@ namespace FeedMapWebApiApp.Controllers
             return Ok(
                 lstFoodMarkerImageData
             );
+        }
+
+        [HttpPost("{id}")]
+        public async Task<ActionResult> Post(int id)
+        {
+            List<FoodMarkerPhotoClient> lstFoodMarkerImageData =
+                new List<FoodMarkerPhotoClient>();
+            int rank = 1;
+            foreach (var file in Request.Form.Files)
+            {
+                FoodMarkerImageData imageData = new FoodMarkerImageData(id, file.FileName);
+                imageData.ImageRank = rank;
+                if (rank == 1) rank = 2;
+                Stream stream = file.OpenReadStream();
+                var retPhoto = await _service.PostPhotoById(imageData, file.ContentType, stream);
+                lstFoodMarkerImageData.Add(new FoodMarkerPhotoClient
+                {
+                    ImageUrl = WebUtility.UrlEncode(retPhoto.ImageUrl),
+                    ImageRank = retPhoto.ImageRank
+                });
+            }
+
+            return Ok(lstFoodMarkerImageData);
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> DeleteByFoodMarkerId([FromQuery(Name = "foodMarkerId")] int foodMarkerId)
+        {
+            await _service.DeletePhotosByFoodMarkerId(foodMarkerId);
+            return Ok();
         }
     }
 }

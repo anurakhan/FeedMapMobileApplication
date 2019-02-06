@@ -37,7 +37,8 @@ namespace FeedMapWebApiApp
 
             //Dependency Inject Token Manager Singleton.
             services.AddSingleton(TokenManagerSingleton.GetInstance(
-                Convert.ToInt32(_configuration["TokenExpiration:Mins"])));
+                Convert.ToInt32(_configuration["TokenExpiration:Mins"]), 
+                Convert.ToInt32(_configuration["MaxUsers:Val"])));
 
             //Dependency Inject Business Services.
             services.AddTransient<IFoodCategoryService, FoodCategoryService>();

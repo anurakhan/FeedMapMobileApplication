@@ -1,4 +1,5 @@
 ﻿using System;
+using Chafu;
 using CoreGraphics;
 using FeedMapApp.Services;
 using FeedMapApp.Services.Navigation;
@@ -12,6 +13,7 @@ namespace FeedMapApp
         private readonly nfloat m_ViewRevealedX = -1 * UIScreen.MainScreen.Bounds.Width / 3;
         private readonly nfloat m_ViewHiddenX = -1 * UIScreen.MainScreen.Bounds.Width;
         private readonly double _animationDuration = 0.5;
+        public EventHandler OnFoodMarkerCreationSuccess;
 
         public SideBarViewController() : base("SideBarViewController", null)
         {
@@ -26,6 +28,7 @@ namespace FeedMapApp
 
             AddGestureRecognizer(BackButtonImg, BackButtonPressed);
             AddGestureRecognizer(LogOutButtonImg, LogOutButtonPressed);
+            AddGestureRecognizer(CameraButtonImg, CameraButtonPressed);
         }
 
         private void AddGestureRecognizer(UIView obj, Action action)
@@ -49,6 +52,13 @@ namespace FeedMapApp
                 UIApplication.SharedApplication.Delegate as AppDelegate);
 
             logOutService.LogoutStart();
+        }
+
+        private void CameraButtonPressed()
+        {
+            var postController = new PostFoodMarkerController();
+            postController.OnSaveSuccess += OnFoodMarkerCreationSuccess;
+            this.PresentViewController(postController, true, null);
         }
 
         public override void DidReceiveMemoryWarning()

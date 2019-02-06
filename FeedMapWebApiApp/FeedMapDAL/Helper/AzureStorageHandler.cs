@@ -72,5 +72,12 @@ namespace FeedMapDAL.Helper
             return container;
         }
 
+        public async Task DeleteFile(string fileName)
+        {
+            var container = GetAzureContainer();
+            var blockBlob = container.GetBlockBlobReference(fileName);
+            await blockBlob.DeleteIfExistsAsync();
+        }
+
     }
 }

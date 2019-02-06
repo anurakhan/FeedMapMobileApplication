@@ -11,5 +11,6 @@ namespace FeedMapDAL.Repository.Abstract
         FoodMarkerImageDataDTO GetTopFoodMarkerImageByFoodMarkerId(int id);
         int Post(FoodMarkerImageDataDTO foodMarkerImg);
         void Update(FoodMarkerImageDataDTO foodMarkerImg, int id);
+        void DeleteByFoodMarker(int id);
     }
 }

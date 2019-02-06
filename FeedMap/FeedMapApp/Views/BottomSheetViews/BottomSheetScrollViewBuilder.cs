@@ -32,7 +32,7 @@ namespace FeedMapApp.Views.BottomSheetViews
             _scrollView.Frame = new CGRect(0, 0, Width, Height);
 
             FoodNameControl.Text = text;
-            FoodNameControl.TextColor = new UIColor(ControlProps.CIColors.Black);
+            FoodNameControl.TextColor = ControlProps.UIColors.Black;
             FoodNameControl.Font = UIFont.FromName("Menlo-BoldItalic", 14f);
             FoodNameControl.TextAlignment = UITextAlignment.Center;
             FoodNameControl.LineBreakMode = UILineBreakMode.WordWrap;

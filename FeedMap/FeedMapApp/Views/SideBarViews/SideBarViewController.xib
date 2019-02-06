@@ -13,6 +13,7 @@
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
                 <outlet property="BackButtonImg" destination="211" id="name-outlet-211"/>
                 <outlet property="LogOutButtonImg" destination="2784" id="name-outlet-2784"/>
+                <outlet property="CameraButtonImg" destination="4493" id="name-outlet-4493"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -67,6 +68,23 @@
                         <constraint id="3846" firstItem="3480" firstAttribute="height" constant="21"/>
                     </constraints>
                 </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="4493" translatesAutoresizingMaskIntoConstraints="NO" image="CameraButton">
+                    <rect key="frame" x="158" y="207" width="35" height="35"/>
+                    <constraints>
+                        <constraint id="4850" firstItem="4493" firstAttribute="height" constant="35"/>
+                        <constraint id="4855" firstItem="4493" firstAttribute="width" constant="35"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Food Marker" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4660" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="center" numberOfLines="2">
+                    <rect key="frame" x="202" y="186" width="91" height="76"/>
+                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                    <constraints>
+                        <constraint id="4865" firstItem="4660" firstAttribute="height" constant="76"/>
+                        <constraint id="4870" firstItem="4660" firstAttribute="width" constant="91"/>
+                    </constraints>
+                </label>
             </subviews>
             <constraints>
                 <constraint id="2321" firstItem="211" firstAttribute="top" secondItem="2" secondAttribute="top" constant="38"/>
@@ -83,6 +101,10 @@
                 <constraint id="4182" firstItem="3480" firstAttribute="top" secondItem="2776" secondAttribute="top" constant="34"/>
                 <constraint id="4233" firstItem="3480" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" constant="60"/>
                 <constraint id="4235" firstItem="3473" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" constant="61"/>
+                <constraint id="4831" firstItem="4493" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="158"/>
+                <constraint id="4845" firstItem="4493" firstAttribute="top" secondItem="2802" secondAttribute="top" constant="29"/>
+                <constraint id="4860" firstItem="4660" firstAttribute="top" secondItem="2802" secondAttribute="centerY" constant="8"/>
+                <constraint id="4940" firstItem="4660" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" constant="60"/>
             </constraints>
         </view>
     </objects>
@@ -100,5 +122,6 @@
         <image name="BackButton" width="40" height="60"/>
         <image name="LogOutButton" width="70" height="60"/>
         <image name="Line" width="200" height="4"/>
+        <image name="CameraButton" width="60" height="60"/>
     </resources>
 </document>

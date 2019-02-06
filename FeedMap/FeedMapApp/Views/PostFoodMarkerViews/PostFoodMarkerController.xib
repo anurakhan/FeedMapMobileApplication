@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostFoodMarkerController">
+            <connections>
+                <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
+                <outlet property="PostFoodMarkerCloseBtn" destination="643" id="name-outlet-643"/>
+                <outlet property="PostFoodMarkerComment" destination="1317" id="name-outlet-1317"/>
+                <outlet property="PostFoodMarkerName" destination="244" id="name-outlet-244"/>
+                <outlet property="PostFoodMarkerCategory" destination="1102" id="name-outlet-1102"/>
+                <outlet property="PostFoodMarkerRestaurant" destination="1111" id="name-outlet-1111"/>
+                <outlet property="PostFoodMarkerRating" destination="1121" id="name-outlet-1121"/>
+                <outlet property="PostFoodMarkerOkButton" destination="2476" id="name-outlet-2476"/>
+                <outlet property="AddMediaBtn" destination="2145" id="name-outlet-2145"/>
+                <outlet property="SeeMediaBtn" destination="2154" id="name-outlet-2154"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="2">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <color key="backgroundColor" customColorSpace="sRGB" colorSpace="calibratedRGB" red="0.12549019607843137" green="0.12549019607843137" blue="0.12549019607843137" alpha="1"/>
+            <subviews>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" id="244" translatesAutoresizingMaskIntoConstraints="NO" placeholder="What's The Name?" textAlignment="center" customClass="PostFoodMarkerTextFieldView">
+                    <rect key="frame" x="32" y="95" width="349" height="50"/>
+                    <color key="textColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute keyPath="layer.cornerRadius" type="number">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <constraints>
+                        <constraint id="248" firstAttribute="width" secondItem="244" secondAttribute="height" multiplier="349:50"/>
+                    </constraints>
+                </textField>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="643" translatesAutoresizingMaskIntoConstraints="NO" image="CloseButton">
+                    <rect key="frame" x="25" y="35" width="35" height="35"/>
+                    <constraints>
+                        <constraint id="651" firstItem="643" firstAttribute="height" constant="35"/>
+                        <constraint id="652" firstItem="643" firstAttribute="width" constant="35"/>
+                    </constraints>
+                </imageView>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" id="1102" translatesAutoresizingMaskIntoConstraints="NO" placeholder="Category" textAlignment="center" customClass="PostFoodMarkerTextFieldView">
+                    <rect key="frame" x="32" y="172" width="349" height="38"/>
+                    <color key="textColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute keyPath="layer.cornerRadius" type="number">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <constraints>
+                        <constraint id="1109" firstAttribute="width" secondItem="1102" secondAttribute="height" multiplier="349:38"/>
+                    </constraints>
+                </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" id="1111" translatesAutoresizingMaskIntoConstraints="NO" placeholder="Restaurant" textAlignment="center" customClass="PostFoodMarkerTextFieldView">
+                    <rect key="frame" x="32" y="236" width="349" height="50"/>
+                    <color key="textColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute keyPath="layer.cornerRadius" type="number">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <constraints>
+                        <constraint id="1119" firstAttribute="width" secondItem="1111" secondAttribute="height" multiplier="349:50"/>
+                    </constraints>
+                </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" id="1121" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="center" customClass="PostFoodMarkerTextFieldView" placeholder="Rating">
+                    <rect key="frame" x="132" y="312" width="150" height="38"/>
+                    <color key="textColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute keyPath="layer.cornerRadius" type="number">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <constraints>
+                        <constraint id="1127" firstAttribute="width" secondItem="1121" secondAttribute="height" multiplier="75:19"/>
+                    </constraints>
+                </textField>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="1317" translatesAutoresizingMaskIntoConstraints="NO" customClass="PostFoodMarkerTextView">
+                    <rect key="frame" x="32" y="375" width="349" height="208"/>
+                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    <constraints>
+                        <constraint id="1321" firstAttribute="width" secondItem="1317" secondAttribute="height" multiplier="349:208"/>
+                    </constraints>
+                    <color key="backgroundColor" colorSpace="calibratedRGB" red="0.12549019607843137" green="0.12549019607843137" blue="0.12549019607843137" alpha="1"/>
+                    <color key="textColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
+                </textView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="2145" translatesAutoresizingMaskIntoConstraints="NO" image="AddButton">
+                    <rect key="frame" x="118" y="618" width="40" height="40"/>
+                    <constraints>
+                        <constraint id="2152" firstItem="2145" firstAttribute="height" constant="40"/>
+                        <constraint id="2153" firstItem="2145" firstAttribute="width" constant="40"/>
+                    </constraints>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="2154" translatesAutoresizingMaskIntoConstraints="NO" image="GalleryButton">
+                    <rect key="frame" x="256" y="618" width="40" height="40"/>
+                    <constraints>
+                        <constraint id="2157" firstItem="2154" firstAttribute="height" constant="40"/>
+                        <constraint id="2158" firstItem="2154" firstAttribute="width" constant="40"/>
+                    </constraints>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="2476" translatesAutoresizingMaskIntoConstraints="NO" image="CheckButton">
+                    <rect key="frame" x="346" y="35" width="35" height="35"/>
+                    <constraints>
+                        <constraint id="2518" firstItem="2476" firstAttribute="height" constant="35"/>
+                        <constraint id="2519" firstItem="2476" firstAttribute="width" constant="35"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <constraints>
+                <constraint id="246" firstItem="2" firstAttribute="trailing" secondItem="244" secondAttribute="trailing" constant="33"/>
+                <constraint id="247" firstItem="244" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="32"/>
+                <constraint id="648" firstItem="643" firstAttribute="top" secondItem="2" secondAttribute="top" constant="35"/>
+                <constraint id="653" firstItem="244" firstAttribute="top" secondItem="643" secondAttribute="bottom" constant="25"/>
+                <constraint id="654" firstItem="643" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="25"/>
+                <constraint id="1106" firstItem="1102" firstAttribute="top" secondItem="244" secondAttribute="bottom" constant="27"/>
+                <constraint id="1107" firstItem="1102" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="32"/>
+                <constraint id="1108" firstItem="2" firstAttribute="trailing" secondItem="1102" secondAttribute="trailing" constant="33"/>
+                <constraint id="1116" firstItem="1111" firstAttribute="top" secondItem="1102" secondAttribute="bottom" constant="26"/>
+                <constraint id="1117" firstItem="2" firstAttribute="trailing" secondItem="1111" secondAttribute="trailing" constant="33"/>
+                <constraint id="1118" firstItem="1111" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="32"/>
+                <constraint id="1124" firstItem="1121" firstAttribute="top" secondItem="1111" secondAttribute="bottom" constant="26"/>
+                <constraint id="1125" firstItem="1121" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="132"/>
+                <constraint id="1126" firstItem="2" firstAttribute="trailing" secondItem="1121" secondAttribute="trailing" constant="132"/>
+                <constraint id="1318" firstItem="1317" firstAttribute="top" secondItem="1121" secondAttribute="bottom" constant="25"/>
+                <constraint id="1319" firstItem="1317" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="32"/>
+                <constraint id="1320" firstItem="2" firstAttribute="trailing" secondItem="1317" secondAttribute="trailing" constant="33"/>
+                <constraint id="2150" firstItem="2145" firstAttribute="top" secondItem="1317" secondAttribute="bottom" constant="35"/>
+                <constraint id="2151" firstItem="2" firstAttribute="centerX" secondItem="2145" secondAttribute="centerX" constant="69"/>
+                <constraint id="2155" firstItem="2154" firstAttribute="top" secondItem="1317" secondAttribute="bottom" constant="35"/>
+                <constraint id="2156" firstItem="2154" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" constant="69"/>
+                <constraint id="2516" firstItem="2476" firstAttribute="top" secondItem="2" secondAttribute="top" constant="35"/>
+                <constraint id="2517" firstItem="2" firstAttribute="trailing" secondItem="2476" secondAttribute="trailing" constant="33"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="AppLogo" width="768" height="768"/>
+        <image name="AppLogoBackground" width="700" height="700"/>
+        <image name="HomeButton" width="120" height="120"/>
+        <image name="DataBox" width="600" height="600"/>
+        <image name="LogInButton" width="803" height="100"/>
+        <image name="DataBoxAlt" width="300" height="300"/>
+        <image name="SignUpButton" width="803" height="100"/>
+        <image name="LogInButtonError" width="810" height="100"/>
+        <image name="SignUpButtonError" width="810" height="100"/>
+        <image name="SideBarButton" width="50" height="50"/>
+        <image name="BackButton" width="40" height="60"/>
+        <image name="LogOutButton" width="70" height="60"/>
+        <image name="Line" width="200" height="4"/>
+        <image name="CameraButton" width="60" height="60"/>
+        <image name="CloseButton" width="48" height="48"/>
+        <image name="AddButton" width="96" height="96"/>
+        <image name="GalleryButton" width="96" height="96"/>
+        <image name="CheckButton" width="64" height="64"/>
+    </resources>
+</document>

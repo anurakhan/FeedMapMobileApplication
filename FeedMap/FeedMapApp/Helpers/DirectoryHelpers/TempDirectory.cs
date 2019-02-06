@@ -13,6 +13,7 @@ namespace FeedMapApp.Helpers.DirectoryHelpers
         {
             var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             var tmp = Path.Combine(documents, "..", "tmp");
+            if (!Directory.Exists(tmp)) Directory.CreateDirectory(tmp);
             return tmp;
         }
     }

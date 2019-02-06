@@ -5,11 +5,16 @@ namespace FeedMapBLL.Domain
 {
     public class User
     {
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public string UserName { get; private set; }
         public byte[] PasswordHash { get; private set; }
         public byte[] PasswordSalt { get; private set; }
         public string PasswordRaw { get; private set;}
+
+        public User()
+        {
+            
+        }
 
         public User(string userName, string password)
         {

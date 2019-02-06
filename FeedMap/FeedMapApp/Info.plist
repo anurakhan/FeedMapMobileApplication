@@ -9,7 +9,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -41,5 +41,9 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>FeedMap needs access to the camera to take photos</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>FeedMap needs access to the photo library.</string>
 </dict>
 </plist>

@@ -41,5 +41,11 @@ namespace FeedMapDAL.Repository.Concrete
                                                   + "_" + foodMarkerImageDto.FileName,
                                                   stream, contentType);
         }
+
+        public async Task DeleteFile(FoodMarkerImageDataDTO foodMarkerImageDto)
+        {
+            string storageFileName = foodMarkerImageDto.Id.ToString() + "_" + foodMarkerImageDto.FileName;
+            await _azureStorageHandler.DeleteFile(storageFileName);
+        }
     }
 }
