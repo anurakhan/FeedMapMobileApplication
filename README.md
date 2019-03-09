@@ -7,7 +7,6 @@ This app consists of an IOS client application and web api.
 
 Improvments to Come:
 Move the manual data write from web api to a seperate client web application to seperate the concerns in the web service.
-Post data from mobile app.
 
 
 Recently Added Features:
@@ -18,17 +17,11 @@ Web Api Authentication.
 Secure SSL networking.
 More refactoring in iOS app and web api app.
 Implemented Token Manager instance.
+Post data from mobile app to server.
+
 
 Note:
 To build this project one must calibrate his own WebApiCred object and appsetting.json.
 
 
-![alt text](https://github.com/anurakhan/FeedMapMobileApplication/blob/master/AppIcons/FeedMapIcon120.png)
-
-![alt text](https://github.com/anurakhan/FeedMapMobileApplication/blob/master/FeedMapScreen1.png)
-
-![alt text](https://github.com/anurakhan/FeedMapMobileApplication/blob/master/FeedMapScreen2.png)
-
-![alt text](https://github.com/anurakhan/FeedMapMobileApplication/blob/master/FeedMapScreen3.png)
-
-![alt text](https://github.com/anurakhan/FeedMapMobileApplication/blob/master/FeedMapScreen4.png)
+![alt text](https://github.com/anurakhan/FeedMapMobileApplication/blob/master/FeedMapBoard.png)
